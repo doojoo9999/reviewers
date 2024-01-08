@@ -1,8 +1,7 @@
-package com.teamsparta.reviewers.domain.reviewers.model
+package com.teamsparta.reviewers.domain.post.model
 
-import com.teamsparta.reviewers.domain.reviewers.dto.PostResponse
+import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import jakarta.persistence.*
-import sun.jvm.hotspot.gc.shared.Generation
 
 @Entity
 @Table(name = "posts")

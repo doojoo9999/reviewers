@@ -1,4 +1,4 @@
-package com.teamsparta.reviewers.domain.reviewers.dto
+package com.teamsparta.reviewers.domain.post.dto.request
 
 data class CreatePostRequest(
     val thumbnailUrl: String,
