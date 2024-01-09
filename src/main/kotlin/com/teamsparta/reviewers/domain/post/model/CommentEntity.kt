@@ -15,7 +15,7 @@ class CommentEntity (
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
-    var userid: UserEntity,
+    var user: UserEntity,
 
     @ManyToOne
     @JoinColumn(name = "postid", nullable = false)

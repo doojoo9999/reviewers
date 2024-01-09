@@ -26,12 +26,12 @@ class CommentServiceImpl(
         request: CreateCommentRequest
     ): CommentResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val userId = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
         return commentRepository.save(
             CommentEntity(
                 content = request.content,
                 userName = request.userName,
-                userid = userId,
+                user = user,
                 post = post
             )
         ).toResponse()
