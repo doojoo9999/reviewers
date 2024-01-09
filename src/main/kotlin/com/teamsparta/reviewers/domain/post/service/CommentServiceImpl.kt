@@ -43,6 +43,7 @@ class CommentServiceImpl(
     override fun deleteComment(
         postId: Long,
         commentId: Long,
+        userId: Long,
         request: DeleteCommentRequest
     ): CommentResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
