@@ -28,6 +28,9 @@ class UserEntity(
 
 fun UserEntity.toResponse(): UserResponse {
     return UserResponse(
-        email = email
+        email = email,
+        birth = birth,
+        password = password,
+        username = username
     )
 }

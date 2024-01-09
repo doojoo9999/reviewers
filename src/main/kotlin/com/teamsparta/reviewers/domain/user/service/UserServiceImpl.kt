@@ -15,7 +15,7 @@ class UserServiceImpl (
     private val userRepository: UserRepository,
 ) : UserService {
 
-    fun signUp (createUserRequest : CreateUserRequest) : UserResponse {
+    override fun signUp (createUserRequest : CreateUserRequest) : UserResponse {
         // Email 중복 검사
         var user : UserEntity? = userRepository.findByEmail(createUserRequest.email)
         if (user != null) {
@@ -28,8 +28,6 @@ class UserServiceImpl (
             createUserRequest.username,
             createUserRequest.birth
         )
-
-
 
         return userRepository.save(user).toResponse()
     }
