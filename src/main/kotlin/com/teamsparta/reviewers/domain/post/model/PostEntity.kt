@@ -12,7 +12,7 @@ class PostEntity (
     @Column(name = "content", nullable = false)
     var content: String,
 
-    @Column(name = "thumbnailUrl", nullable = false)
+    @Column(name = "thumbnailurl", nullable = false)
     var thumbnailUrl: String,
 
     @Column(name = "likes", nullable = false)
@@ -20,7 +20,7 @@ class PostEntity (
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = 0
+    var postid: Long = 0
 
 
     fun addLikes() {

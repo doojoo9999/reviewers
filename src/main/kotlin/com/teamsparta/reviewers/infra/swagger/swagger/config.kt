@@ -1,4 +1,4 @@
-package com.teamsparta.reviewers.infra.swagger
+package com.teamsparta.reviewers.infra.swagger.swagger
 
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SwaggerConfig {
-    @Bean
+
     fun openAPI(): OpenAPI = OpenAPI()
         .components(Components())
         .info(

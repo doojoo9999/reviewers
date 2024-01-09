@@ -13,6 +13,5 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse(message = e.message))
-
     }
 }

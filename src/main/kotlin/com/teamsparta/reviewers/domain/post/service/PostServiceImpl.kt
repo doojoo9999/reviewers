@@ -21,7 +21,6 @@ class PostServiceImpl(
                 title = request.title,
                 thumbnailUrl = request.thumbnailUrl,
                 content = request.content,
-                likes = null,
             )
         ).toResponse()
     }
