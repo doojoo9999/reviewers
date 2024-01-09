@@ -1,4 +1,7 @@
 package com.teamsparta.reviewers.domain.user.model
 
-class User {
+enum class UserGender{
+    MAN,
+    WOMEN,
+    NONE,
 }

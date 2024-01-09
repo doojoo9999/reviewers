@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@RequestMapping("/reviewers")
+@RequestMapping("/api/reviewers")
 @RestController
 class PostController(
     private val postService: PostService

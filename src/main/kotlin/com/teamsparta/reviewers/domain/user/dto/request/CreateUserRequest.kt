@@ -1,8 +1,8 @@
-package com.teamsparta.reviewers.domain.user.dto.response
+package com.teamsparta.reviewers.domain.user.dto.request
 
 import java.time.LocalDate
 
-data class UserResponse (
+data class CreateUserRequest(
     val email: String,
     val password: String,
     val username: String,
