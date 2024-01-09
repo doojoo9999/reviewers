@@ -11,8 +11,4 @@ import org.springframework.stereotype.Service
 interface UserService{
     fun signUp() : UserResponse
 
-
-
-
-
 }
