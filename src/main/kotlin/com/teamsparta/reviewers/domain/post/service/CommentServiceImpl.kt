@@ -38,7 +38,7 @@ class CommentServiceImpl (
     override fun updateComment(postId: Long, commentId: Long, request: UpdateCommentRequest): CommentResponse {
         val card = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Card", postId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
-    //비밀번호 검증
+    
 
         return comment.toResponse()
     }
