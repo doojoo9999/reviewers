@@ -21,7 +21,7 @@ class UserEntity(
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
+    var userid: Long? = null
 }
 
 fun UserEntity.toResponse(): UserResponse {
