@@ -47,7 +47,7 @@ class CommentServiceImpl(
     ): CommentResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("comment", commentId)
-        if(comment.userId != request.userId) {
+        if(comment.user.userid != request.userId) {
             throw IdNotMatchException("id", request.userId)
         }
         commentRepository.delete(comment)
