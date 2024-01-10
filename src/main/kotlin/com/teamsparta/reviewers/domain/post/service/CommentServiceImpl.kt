@@ -5,6 +5,7 @@ import com.teamsparta.reviewers.domain.exception.ModelNotFoundException
 import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
 import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.request.DeleteCommentRequest
+import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
 import com.teamsparta.reviewers.domain.post.model.toResponse
@@ -76,4 +77,13 @@ class CommentServiceImpl(
             )
         ).toResponse()
 }
+
+    override fun updateReply(
+        postId: Long,
+        userId: Long,
+        parentcommentId: Long,
+        request: UpdateReplyRequest
+    ): CommentResponse {
+        TODO("Not yet implemented")
     }
+}

@@ -1,6 +1,7 @@
 package com.teamsparta.reviewers.domain.post.controller
 
 import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
+import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
@@ -34,24 +35,22 @@ class CommentController(
         @PathVariable postId: Long,
         userId: Long,
         parentCommentId: Long,
-        @RequestBody createCommentRequest: CreateCommentRequest
+        @RequestBody createReplyRequest: CreateReplyRequest
     ): ResponseEntity<CommentResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(commentService.createComment(postId, userId, parentCommentId, createCommentRequest))
+            .body(commentService.createReply(postId, userId, parentCommentId, createReplyRequest))
     }
-
+@PostMapping
     fun updateReply(
         @PathVariable postId: Long,
         userId: Long,
         parentCommentId: Long,
-        @RequestBody updateCommentRequest : UpdateReplyRequest
-    ) : ResponseEntity<CommentReplyResponse>
-    {
-        return ResponseEntity(
+        @RequestBody updateReplyRequest: UpdateReplyRequest
+    ) : ResponseEntity<CommentReplyResponse> {
+        return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.updateReply(parentCommentId, updateCommentRequest))
-        )
+            .body(commentService.updateReply(postId, userId, parentCommentId, updateReplyRequest))
     }
 
 }
