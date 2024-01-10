@@ -8,7 +8,7 @@ import java.time.LocalDate
 @Table(name= "users")
 class UserEntity(
 
-    @Column(name = "email", nullable = false, updatable = false)
+    @Column(name = "email", updatable = false)
     val email: String,
 
     @Column(name = "password", nullable = false)

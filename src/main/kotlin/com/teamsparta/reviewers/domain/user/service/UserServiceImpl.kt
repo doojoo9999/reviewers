@@ -8,6 +8,7 @@ import com.teamsparta.reviewers.domain.user.model.toResponse
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import java.util.*
 
 
 @Service
@@ -15,9 +16,12 @@ class UserServiceImpl (
     private val userRepository: UserRepository,
 ) : UserService {
 
-    override fun signUp (createUserRequest : CreateUserRequest) : UserResponse {
-        // Email 중복 검사
-        val sameAccountCheckUser: UserEntity = userRepository.findByEmail(createUserRequest.email)
+    @Transactional
+    override fun signUp(
+        createUserRequest: CreateUserRequest
+    ): UserResponse {
+        // email 중복검사
+        val sameAccountCheckUser: UserEntity? = userRepository.findByEmail(createUserRequest.email)
 
         if (sameAccountCheckUser != null) {
             // 이메일이 이미 존재하는 경우
@@ -32,6 +36,5 @@ class UserServiceImpl (
         )
 
         return userRepository.save(signUpUser).toResponse()
-
-}
     }
+}
