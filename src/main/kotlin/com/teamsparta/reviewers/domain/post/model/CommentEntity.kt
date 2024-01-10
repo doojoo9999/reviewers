@@ -20,6 +20,10 @@ class CommentEntity (
     @ManyToOne
     @JoinColumn(name = "postid", nullable = false)
     var post: PostEntity,
+
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    var parentComment: CommentEntity?
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

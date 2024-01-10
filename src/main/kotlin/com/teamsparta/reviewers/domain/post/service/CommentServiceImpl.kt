@@ -3,6 +3,7 @@ package com.teamsparta.reviewers.domain.post.service
 import com.teamsparta.reviewers.domain.exception.IdNotMatchException
 import com.teamsparta.reviewers.domain.exception.ModelNotFoundException
 import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
+import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.request.DeleteCommentRequest
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
@@ -55,4 +56,24 @@ class CommentServiceImpl(
         return commentRepository.save(comment)
         .toResponse()
 }
+    override fun createReply(
+        postId: Long,
+        userId: Long,
+        parentcommentId: Long,
+        request: CreateReplyRequest
+    ): CommentResponse {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
+        val parentComment = commentRepository.findByIdOrNull(parentcommentId) ?: throw ModelNotFoundException("Comment", parentcommentId)
+
+        return commentRepository.save(
+            CommentEntity(
+                content = request.content,
+                userName = request.userName,
+                user = user,
+                post = post,
+                parentComment = parentComment
+            )
+        ).toResponse()
 }
+    }

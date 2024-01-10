@@ -1,6 +1,8 @@
 package com.teamsparta.reviewers.domain.post.controller
 
 import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
+import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
+import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.service.CommentService
 import org.springframework.http.HttpStatus
@@ -26,4 +28,30 @@ class CommentController(
             .status(HttpStatus.CREATED)
             .body(commentService.createComment(postId, userId, createCommentRequest))
     }
+
+    @PostMapping("/{commentId}/reply")
+    fun createReply(
+        @PathVariable postId: Long,
+        userId: Long,
+        parentCommentId: Long,
+        @RequestBody createCommentRequest: CreateCommentRequest
+    ): ResponseEntity<CommentResponse> {
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(commentService.createComment(postId, userId, parentCommentId, createCommentRequest))
+    }
+
+    fun updateReply(
+        @PathVariable postId: Long,
+        userId: Long,
+        parentCommentId: Long,
+        @RequestBody updateCommentRequest : UpdateReplyRequest
+    ) : ResponseEntity<CommentReplyResponse>
+    {
+        return ResponseEntity(
+            .status(HttpStatus.OK)
+            .body(commentService.updateReply(parentCommentId, updateCommentRequest))
+        )
+    }
+
 }
