@@ -9,14 +9,14 @@ class CommentEntity (
     @Column(name = "content", nullable = false)
     var content: String,
 
-    @Column(name = "userid", nullable = false)
+    @Column(name = "userId", nullable = false)
     var userId: Long,
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "userName", nullable = false)
     var userName: String,
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "postId", nullable = false)
     var post: PostEntity,
 ){
     @Id
