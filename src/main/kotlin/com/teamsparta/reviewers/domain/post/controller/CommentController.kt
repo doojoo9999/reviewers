@@ -35,15 +35,15 @@ class CommentController(
     }
 
 
-    @PutMapping("/{commentId}")
-    fun updateComment(@PathVariable postId: Long,
-                      @PathVariable commentId: Long,
-                      @RequestBody updateCommentRequest: UpdateCommentRequest
-    ): ResponseEntity<CommentResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(postService.updateComment(postId, commentId, updateCommentRequest))
-    }
+//    @PutMapping("/{commentId}")
+//    fun updateComment(@PathVariable postId: Long,
+//                      @PathVariable commentId: Long,
+//                      @RequestBody updateCommentRequest: UpdateCommentRequest
+//    ): ResponseEntity<CommentResponse> {
+//        return ResponseEntity
+//            .status(HttpStatus.OK)
+//            .body(postService.updateComment(postId, commentId, updateCommentRequest))
+//    }
 
 
 }

@@ -3,6 +3,7 @@ package com.teamsparta.reviewers.domain.user.controller
 import com.teamsparta.reviewers.domain.user.dto.request.SingUpRequest
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import com.teamsparta.reviewers.domain.user.service.UserService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,7 +18,7 @@ class UserController(
 ) {
 
     @PostMapping("/singup")
-    fun singUp(@RequestBody singUpRequest: SingUpRequest, email: String): ResponseEntity<UserResponse> {
+    fun singUp(@RequestBody @Valid singUpRequest: SingUpRequest, email: String): ResponseEntity<UserResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(userService.singUp(email, singUpRequest))

@@ -15,8 +15,5 @@ interface PostService {
     fun updatePost(postId:Long, request: UpdatePostRequest) : PostResponse
 
     fun deletePost(postId:Long)
-    fun updateComment(postId: Long, commentId: Long, updateCommentRequest: UpdateCommentRequest): CommentResponse
-    fun createComment(postId: Long, createCommentRequest: CreatePostRequest): CommentResponse
-
 
 }
