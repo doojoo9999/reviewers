@@ -3,6 +3,7 @@ package com.teamsparta.reviewers.domain.user.controller
 import com.teamsparta.reviewers.domain.user.dto.request.CreateUserRequest
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import com.teamsparta.reviewers.domain.user.service.UserService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,7 +18,7 @@ class UserController(
 ) {
     // 회원가입
     @PostMapping("/signup")
-    fun singUp(@RequestBody createUserRequest: CreateUserRequest) : ResponseEntity<UserResponse> {
+    fun singUp(@RequestBody @Valid createUserRequest: CreateUserRequest) : ResponseEntity<UserResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.signUp(createUserRequest))
