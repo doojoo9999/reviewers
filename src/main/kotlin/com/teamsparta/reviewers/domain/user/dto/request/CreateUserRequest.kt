@@ -9,15 +9,19 @@ import java.time.format.DateTimeFormatter
 data class CreateUserRequest(
     @field:NotBlank
     @field:Pattern(
-        regexp = "^(?=.*[A-Za-z])(?=.*\\\\d)[A-Za-z\\\\d]{4,12}\$",
-        message = "비밀번호는 최소 4자리 ~ 12자리, 영문과 숫자가 포함되어야 합니다."
+        regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[a-z]).{8,}\$",
+    //(?=.*\d): 어떤 위치에서든 숫자 (\d)가 적어도 하나 이상 있어야 함을 나타냅니다.
+    //(?=.*[a-z]): 어떤 위치에서든 소문자 알파벳 (a-z)이 적어도 하나 이상 있어야 함을 나타냅니다.
+    //(?=.*[a-zA-Z]): 어떤 위치에서든 알파벳 (a-z )이 적어도 하나 이상 있어야 함을 나타냅니다.
+    //.{8,}: 적어도 8자 이상의 어떤 문자든 가능함을 나타냅니다.
+        message = "비밀번호는 최소 8자리, 영문 대/소문자와 숫자가 포함되어야 합니다."
     )
     @JsonProperty("password")
     private val _password: String?,
 
     @field:NotBlank
     @field:Pattern(
-        regexp = "^[\\\\w.-]+@[\\\\w.-]+\\\\.[A-Za-z]{2,}\$",
+        regexp = "^(?:(?:[\\w`~!#\$%^&*\\-=+;:{}'|,?\\/]+(?:(?:\\.(?:\"(?:\\\\?[\\w`~!#\$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)*\"|[\\w`~!#\$%^&*\\-=+;:{}'|,?\\/]+))*\\.[\\w`~!#\$%^&*\\-=+;:{}'|,?\\/]+)?)|(?:\"(?:\\\\?[\\w`~!#\$%^&*\\-=+;:{}'|,?\\/\\.()<>\\[\\] @]|\\\\\"|\\\\\\\\)+\"))@(?:[a-zA-Z\\d\\-]+(?:\\.[a-zA-Z\\d\\-]+)*|\\[\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\])\$",
         message = "이메일 형식이 올바르지 않습니다."
     )
     @JsonProperty("email")
@@ -51,6 +55,6 @@ data class CreateUserRequest(
         get() = _username!!
 
     private fun String.toLocalDate(): LocalDate =
-        LocalDate.parse(this,  DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        LocalDate.parse(this,  DateTimeFormatter.ofPattern("yyyyMMdd"))
     // string을 localdate 형식으로 반환하기 위해 확장 함수 사용
 }
