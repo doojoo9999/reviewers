@@ -30,6 +30,6 @@ class CommentEntity (
 fun CommentEntity.toResponse(): CommentResponse {
     return CommentResponse(
         content = content,
-        userName = userName
+        userName = userName,
     )
 }
