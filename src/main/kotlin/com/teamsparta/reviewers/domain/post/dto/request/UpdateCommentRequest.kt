@@ -1,7 +1,10 @@
 package com.teamsparta.reviewers.domain.post.dto.request
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.StringIdGenerator
+
 data class UpdateCommentRequest(
-    var name: String,
-    var password: String,
+    val postId : String,
+    val userId: Long,
     val content: String
 )
+
