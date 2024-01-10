@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
-import com.teamsparta.reviewers.domain.post.service.PostService
+import com.teamsparta.reviewers.domain.post.dto.request.UpdateCommentRequest
+import com.teamsparta.reviewers.domain.post.service.PostServiceImpl
 
 
 import org.springframework.web.bind.annotation.*
@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/reviewers/{postId}/comment")
 class CommentController(
-    private val commentService: CommentService
+    private val commentService: CommentService,
+    private val postService: PostServiceImpl
 ) {
 
     @PostMapping()
@@ -31,18 +32,7 @@ class CommentController(
             .status(HttpStatus.CREATED)
             .body(commentService.createComment(postId, userId, createCommentRequest))
     }
-class CommentController<UpdateCommentRequest>(
-    private val cardService: PostService
-) {
 
-    @PostMapping
-    fun createComment(@PathVariable postId: Long,
-                   @RequestBody createCommentRequest: CreatePostRequest
-    ): ResponseEntity<CommentResponse> {
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(cardService.createComment(postId, createCommentRequest))
-    }
 
     @PutMapping("/{commentId}")
     fun updateComment(@PathVariable postId: Long,
@@ -51,7 +41,7 @@ class CommentController<UpdateCommentRequest>(
     ): ResponseEntity<CommentResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(cardService.updateComment(postId, commentId, updateCommentRequest))
+            .body(postService.updateComment(postId, commentId, updateCommentRequest))
     }
 
 
