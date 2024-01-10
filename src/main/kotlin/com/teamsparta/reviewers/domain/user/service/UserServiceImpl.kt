@@ -17,20 +17,21 @@ class UserServiceImpl (
 
     override fun signUp (createUserRequest : CreateUserRequest) : UserResponse {
         // Email 중복 검사
-        var user : UserEntity? = userRepository.findByEmail(createUserRequest.email)
-        if (user != null) {
+        val sameAccountCheckUser: UserEntity = userRepository.findByEmail(createUserRequest.email)
+
+        if (sameAccountCheckUser != null) {
+            // 이메일이 이미 존재하는 경우
             throw SameAccountException(createUserRequest.email)
         }
 
-        user = UserEntity(
+        val signUpUser = UserEntity(
             createUserRequest.email,
             createUserRequest.password,
             createUserRequest.username,
             createUserRequest.birth
         )
 
-        return userRepository.save(user).toResponse()
-    }
-
+        return userRepository.save(signUpUser).toResponse()
 
 }
+    }

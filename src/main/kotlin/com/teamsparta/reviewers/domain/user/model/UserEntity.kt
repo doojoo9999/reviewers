@@ -5,7 +5,7 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
-@Table
+@Table(name= "users")
 class UserEntity(
 
     @Column(name = "email", nullable = false, updatable = false)
@@ -23,6 +23,7 @@ class UserEntity(
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userid")
     var userId: Long = 0
 }
 
