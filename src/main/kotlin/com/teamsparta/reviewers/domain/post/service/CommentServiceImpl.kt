@@ -21,6 +21,7 @@ class CommentServiceImpl(
     private val userRepository: UserRepository
 ) : CommentService {
 
+    // 코멘트 작성
     @Transactional
     override fun createComment(
         postId: Long,

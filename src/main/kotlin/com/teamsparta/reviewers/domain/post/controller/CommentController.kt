@@ -17,6 +17,7 @@ class CommentController(
     private val commentService: CommentService
 ) {
 
+    // 코멘트 작성
     @PostMapping()
     fun createComment(
         @PathVariable postId: Long, userId: Long,
