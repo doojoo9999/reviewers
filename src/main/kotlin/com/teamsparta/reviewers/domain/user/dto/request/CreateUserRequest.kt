@@ -1,6 +1,7 @@
 package com.teamsparta.reviewers.domain.user.dto.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.teamsparta.reviewers.domain.user.model.ROLE
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 import java.time.LocalDate
@@ -43,6 +44,9 @@ data class CreateUserRequest(
     @JsonProperty("username")
     private val _username: String?,
 
+    @JsonProperty("userRole")
+    private val _userRole: ROLE,
+
     ) {
 
     val password: String
@@ -54,7 +58,12 @@ data class CreateUserRequest(
     val username: String
         get() = _username!!
 
+    val userRole: ROLE
+        get() = _userRole
+
     private fun String.toLocalDate(): LocalDate =
         LocalDate.parse(this,  DateTimeFormatter.ofPattern("yyyyMMdd"))
     // string을 localdate 형식으로 반환하기 위해 확장 함수 사용
+
 }
+

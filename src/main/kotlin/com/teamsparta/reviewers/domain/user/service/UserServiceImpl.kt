@@ -3,8 +3,7 @@ package com.teamsparta.reviewers.domain.user.service
 import com.teamsparta.reviewers.domain.exception.SameAccountException
 import com.teamsparta.reviewers.domain.user.dto.request.CreateUserRequest
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
-import com.teamsparta.reviewers.domain.user.model.UserEntity
-import com.teamsparta.reviewers.domain.user.model.toResponse
+import com.teamsparta.reviewers.domain.user.model.*
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
@@ -32,9 +31,12 @@ class UserServiceImpl (
             createUserRequest.email,
             createUserRequest.password,
             createUserRequest.username,
-            createUserRequest.birth
+            createUserRequest.birth,
+            createUserRequest.userRole,
         )
 
-        return userRepository.save(signUpUser).toResponse()
+        val savedUser = userRepository.save(signUpUser)
+
+        return savedUser.toResponse()
     }
 }

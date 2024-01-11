@@ -20,6 +20,9 @@ class UserEntity(
     @Column(name = "birth", nullable = false)
     val birth: LocalDate,
 
+    @Column(name = "user_role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    var userRole: ROLE
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +35,7 @@ fun UserEntity.toResponse(): UserResponse {
         email = email,
         birth = birth,
         password = password,
-        username = username
+        username = username,
+        userRole = userRole
     )
 }
