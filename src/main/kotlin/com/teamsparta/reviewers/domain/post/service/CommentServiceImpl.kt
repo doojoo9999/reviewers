@@ -20,8 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 class CommentServiceImpl(
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val userRepository: UserRepository,
-    private val commentServiceImpl: CommentServiceImpl
+    private val userRepository: UserRepository
 ) : CommentService {
 
     // 코멘트 작성
@@ -56,10 +55,7 @@ class CommentServiceImpl(
 
         post.content = request.content
         comment.content = request.content
-
-        return commentRepository.save(comment)
-            .toResponse()
-
+        return comment.toResponse()
     }
 
     @Transactional
