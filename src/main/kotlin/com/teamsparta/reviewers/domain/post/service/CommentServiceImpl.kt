@@ -53,18 +53,6 @@ class CommentServiceImpl(
     }
 
     @Transactional
-    override fun deleteComment(postId: Long, commentId: Long, request: DeleteCommentRequest) {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", postId)
-
-        // 비밀번호 검사
-
-
-        postRepository.save(post)
-
-    }
-
-    @Transactional
     override fun deleteComment(
         postId: Long,
         commentId: Long,
