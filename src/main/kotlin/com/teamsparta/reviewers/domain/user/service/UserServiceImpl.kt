@@ -6,6 +6,7 @@ import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import com.teamsparta.reviewers.domain.user.model.*
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -15,6 +16,7 @@ class UserServiceImpl (
     private val userRepository: UserRepository,
 ) : UserService {
 
+    private val passwordEncoder = BCryptPasswordEncoder()
     @Transactional
     override fun signUp(
         createUserRequest: CreateUserRequest
@@ -27,9 +29,11 @@ class UserServiceImpl (
             throw SameAccountException(createUserRequest.email)
         }
 
+        val encodedPassword = passwordEncoder.encode(createUserRequest.password)
+
         val signUpUser = UserEntity(
             createUserRequest.email,
-            createUserRequest.password,
+            encodedPassword,
             createUserRequest.username,
             createUserRequest.birth,
             createUserRequest.userRole,
