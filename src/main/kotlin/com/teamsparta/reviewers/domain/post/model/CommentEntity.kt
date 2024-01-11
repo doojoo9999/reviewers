@@ -21,9 +21,12 @@ class CommentEntity (
     @JoinColumn(name = "postid", nullable = false)
     var post: PostEntity,
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val commentList: MutableList<CommentEntity> = mutableListOf()
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    var parentComment: CommentEntity? = null,
 
+    @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val commentList: MutableList<CommentEntity> = mutableListOf()
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
