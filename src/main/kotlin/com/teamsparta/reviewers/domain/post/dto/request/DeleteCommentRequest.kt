@@ -1,6 +1,7 @@
 package com.teamsparta.reviewers.domain.post.dto.request
 
-class DeleteCommentRequest (
-    val content: String,
-    val postId: Long,
-    )
+data class DeleteCommentRequest (
+    val userId : Long,
+    val postId : Long,
+    val commentid : Long
+)

@@ -7,7 +7,10 @@ import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 
 interface CommentService {
 
-    fun createComment(postId: Long, request: CreateCommentRequest): CommentResponse
+    fun createComment(postId: Long, userId: Long, request: CreateCommentRequest): CommentResponse
+
+    fun deleteComment(postId : Long, commentId : Long, userId: Long, request: DeleteCommentRequest) : CommentResponse
+
     fun updateComment(postId: Long, commentId: Long, request: UpdateCommentRequest): CommentResponse
-    fun deleteComment(postId: Long, commentId: Long, request: DeleteCommentRequest)
+
 }
