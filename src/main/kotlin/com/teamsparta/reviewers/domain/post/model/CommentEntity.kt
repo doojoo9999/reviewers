@@ -20,6 +20,10 @@ class CommentEntity (
     @ManyToOne
     @JoinColumn(name = "postid", nullable = false)
     var post: PostEntity,
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val commentList: MutableList<CommentEntity> = mutableListOf()
+
 ){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

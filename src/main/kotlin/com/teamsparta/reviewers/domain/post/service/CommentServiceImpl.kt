@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional
 class CommentServiceImpl(
     private val postRepository: PostRepository,
     private val commentRepository: CommentRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val commentServiceImpl: CommentServiceImpl
 ) : CommentService {
 
     // 코멘트 작성
@@ -43,24 +44,21 @@ class CommentServiceImpl(
     }
 
     @Transactional
-    override fun updateComment(postId: Long, commentId: Long, request: UpdateCommentRequest): CommentResponse {
+    override fun updateComment(
+        postId: Long,
+        commentId: Long,
+        userId: Long,
+        request: UpdateCommentRequest
+    ): CommentResponse {
+
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
+
         post.content = request.content
         comment.content = request.content
-        return comment.toResponse()
 
-    }
-
-    @Transactional
-    override fun deleteComment(postId: Long, commentId: Long, request: DeleteCommentRequest) {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", postId)
-
-        // 비밀번호 검사
-
-
-        postRepository.save(post)
+        return commentRepository.save(comment)
+            .toResponse()
 
     }
 
@@ -80,4 +78,16 @@ class CommentServiceImpl(
         return commentRepository.save(comment)
         .toResponse()
 }
+
+    @Transactional
+    override fun getComment(
+        postId: Long,
+        commentId: Long,
+        userId: Long)
+    : List<CommentResponse> {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        val comment = commentRepository.findByIdOrNull(commentId)  ?: throw ModelNotFoundException("comment", commentId)
+
+        return comment.commentList.map{it.toResponse()}
+    }
 }
