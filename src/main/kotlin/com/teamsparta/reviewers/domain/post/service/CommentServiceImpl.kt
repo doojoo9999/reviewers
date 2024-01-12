@@ -115,8 +115,6 @@ class CommentServiceImpl(
             ?: throw ModelNotFoundException("Comment", commentId)
         return  post.comments.map { it.toResponse() }
     }
-
-            .toResponse()
     }
 
     @Transactional
