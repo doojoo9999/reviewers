@@ -5,16 +5,21 @@ import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
+import com.teamsparta.reviewers.domain.post.model.LikeEntity
 import com.teamsparta.reviewers.domain.post.model.PostEntity
 import com.teamsparta.reviewers.domain.post.model.toAddLikeResponse
 import com.teamsparta.reviewers.domain.post.model.toResponse
+import com.teamsparta.reviewers.domain.post.repository.LikeRepository
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
+import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class PostServiceImpl(
     private val postRepository: PostRepository,
+    private val userRepository: UserRepository,
+    private val likeRepository: LikeRepository,
 ) : PostService {
 
     override fun createPost(request: CreatePostRequest): PostResponse {
@@ -54,10 +59,15 @@ class PostServiceImpl(
         postRepository.delete(post)
     }
 
-    override fun addLike(postId: Long): AddLikeResponse {
+    override fun addLike(userId: Long, postId: Long): AddLikeResponse {
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException ("User", userId)
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
 
+        if (likeRepository.existsByUserAndPost(user, post)) {
+            throw IllegalArgumentException ("따봉은 계정 당 1회만 가능합니다.")
+        }
         post.likes += 1
+        likeRepository.save(LikeEntity(user, post))
 
         return postRepository.save(post).toAddLikeResponse()
     }

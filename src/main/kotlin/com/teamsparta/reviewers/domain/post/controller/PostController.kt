@@ -5,8 +5,10 @@ import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.service.PostService
+import com.teamsparta.reviewers.domain.user.model.UserEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/reviewers")
@@ -56,10 +58,13 @@ class PostController(
     }
 
     @PostMapping("/{postId}/like")
-    fun addLike(@PathVariable postId: Long): ResponseEntity<AddLikeResponse> {
+    fun addLike(
+        @PathVariable postId: Long,
+        @AuthenticationPrincipal user: UserEntity
+    ): ResponseEntity<AddLikeResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(postService.addLike(postId))
+            .body(postService.addLike(user.userid!!, postId))
     }
 
 }

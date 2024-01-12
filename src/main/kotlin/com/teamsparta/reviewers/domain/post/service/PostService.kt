@@ -17,5 +17,5 @@ interface PostService {
 
     fun getPostById(postId:Long) : PostResponse
 
-    fun addLike(postId:Long) : AddLikeResponse
+    fun addLike(userId:Long, postId:Long) : AddLikeResponse
 }
