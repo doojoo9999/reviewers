@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/reviewers/{postId}/comment")
 class CommentController(
     private val commentService: CommentService
-
 ) {
 
     // 코멘트 작성
@@ -34,8 +33,6 @@ class CommentController(
             .status(HttpStatus.CREATED)
             .body(commentService.createComment(postId, userId, createCommentRequest))
     }
-
-
 
  @PutMapping("/{commentId}")
     fun updateComment(

@@ -2,8 +2,10 @@ package com.teamsparta.reviewers.domain.user.service
 
 import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
+import com.teamsparta.reviewers.domain.user.dto.request.UserUpdateRequest
 import com.teamsparta.reviewers.domain.user.dto.response.SignInResponse
 import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
+import com.teamsparta.reviewers.domain.user.dto.response.UserUpdateResponse
 import com.teamsparta.reviewers.domain.user.model.UserEntity
 import com.teamsparta.reviewers.domain.user.model.toSignUpResponse
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
@@ -34,7 +36,8 @@ class UserServiceImpl(
                 email = request.email,
                 birth = request.birth,
                 userName = request.userName,
-                userRole = request.userRole
+                userRole = request.userRole,
+                profile_Image = request.profile_Image
             )
         ).toSignUpResponse()
     }
@@ -53,5 +56,34 @@ class UserServiceImpl(
         }
 
         return SignInResponse(user.email, user.userName, user.userRole, token)
+    }
+
+    @Transactional
+    override fun userUpdate(
+        email: String,
+        request: UserUpdateRequest
+    ): UserUpdateResponse {
+        val user = userRepository.findByEmail(email)
+            ?: throw IllegalArgumentException("해당 이메일의 사용자를 찾을 수 없습니다.")
+
+        if (encoder.matches(request.password, user.password)) {
+            // 이전 비밀번호가 일치하는 경우에만 업데이트
+            user.userName = request.userName
+            user.birth = request.birth
+            user.profile_Image = request.profile_Image
+            user.userRole = request.userRole
+
+            // 이 부분에서 request.newPassword 가 존재한다면 비밀번호 업데이트를 수행할 수 있습니다.
+            if (request.newPassword.isNotBlank()) {
+                val newPasswordEncoded = encoder.encode(request.newPassword)
+                user.password = newPasswordEncoded
+            }
+
+            userRepository.save(user)
+
+            return UserUpdateResponse(user.userName, user.birth, user.profile_Image, user.userRole)
+        } else {
+            throw IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.")
+        }
     }
 }
