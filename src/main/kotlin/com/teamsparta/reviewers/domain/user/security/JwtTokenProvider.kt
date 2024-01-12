@@ -1,8 +1,6 @@
 package com.teamsparta.reviewers.domain.user.security
 
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.context.annotation.PropertySource
 import org.springframework.stereotype.Service
 import java.sql.Timestamp
@@ -10,9 +8,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
-import javax.crypto.SecretKey
-import java.util.Base64
-import javax.crypto.spec.SecretKeySpec
 
 
 @PropertySource("classpath:jwt.yml")

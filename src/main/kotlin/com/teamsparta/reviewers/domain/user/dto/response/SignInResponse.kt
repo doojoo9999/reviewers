@@ -2,8 +2,6 @@ package com.teamsparta.reviewers.domain.user.dto.response
 
 import com.teamsparta.reviewers.domain.user.common.UserRole
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.validation.constraints.NotEmpty
-import org.springframework.boot.web.server.Cookie
 
 data class SignInResponse(
     @Schema(description = "회원 메일", example = "example@mail.com")
