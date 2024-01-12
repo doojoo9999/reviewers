@@ -49,7 +49,7 @@ class CommentController(
    }
 
 
-    @GetMapping("/post/{postId}/comment/{commentId}") //한 포스트에 달린 전체 댓글 조회
+    @GetMapping() //한 포스트에 달린 전체 댓글 조회
      fun getCommentByPostId(
          @PathVariable
          postId: Long,
