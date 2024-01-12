@@ -4,7 +4,9 @@ import com.teamsparta.reviewers.domain.user.common.UserRole
 import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
 import com.teamsparta.reviewers.domain.user.dto.response.SignInResponse
+import com.teamsparta.reviewers.domain.user.dto.response.SignOutResponse
 import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
+import com.teamsparta.reviewers.domain.user.dto.response.WithdrawResponse
 import com.teamsparta.reviewers.domain.user.model.UserEntity
 import com.teamsparta.reviewers.domain.user.model.toSignUpResponse
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
@@ -48,12 +50,25 @@ class UserServiceImpl(
         return SignInResponse(user.email, user.userName, user.userRole)
 
 
+
 //        val member = memberRepository.findByAccount(request.account)
 //            ?.takeIf { encoder.matches(request.password, it.password) } ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
 //        val token = tokenProvider.createToken("${member.id}:${member.type}")
 //        return SignInResponse(member.name, member.type, token)
     }
 
+    // 로그아웃은 클라이언트에서 JavaScript를 통해 진행됨 (document.cookie = "token=; ) 등등등,.,,,.,.,.,.,. 이라고 함
+    override fun signOut(email: String): SignOutResponse {
+        return SignOutResponse(message = "complete logout:$email", success = true)
+    }
+
+
+
+    override fun withdraw(email: String): WithdrawResponse {
+        val user = userRepository.findByEmail(email) ?: return WithdrawResponse(message = "not founded email.", success = false)
+        userRepository.delete(user)
+        return WithdrawResponse(message="complete withdraw email:$email", success = true)
+    }
 
 //        val user = userRepository.findByEmail(request.email)
 //        if (user != null) {

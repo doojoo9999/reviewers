@@ -4,7 +4,9 @@ import com.teamsparta.reviewers.domain.exception.ModelNotFoundException
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
+import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
 import com.teamsparta.reviewers.domain.post.model.PostEntity
+import com.teamsparta.reviewers.domain.post.model.toAddLikeResponse
 import com.teamsparta.reviewers.domain.post.model.toResponse
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -21,12 +23,18 @@ class PostServiceImpl(
                 title = request.title,
                 thumbnailUrl = request.thumbnailUrl,
                 content = request.content,
+                likes = 0
             )
         ).toResponse()
     }
 
     override fun getPostList(): List<PostResponse> {
         return postRepository.findAll().map { it.toResponse() }
+    }
+
+    override fun getPostById(postId: Long): PostResponse {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
+        return post.toResponse()
     }
 
     override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
@@ -44,5 +52,13 @@ class PostServiceImpl(
     override fun deletePost(postId: Long) {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
         postRepository.delete(post)
+    }
+
+    override fun addLike(postId: Long): AddLikeResponse {
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
+
+        post.likes += 1
+
+        return postRepository.save(post).toAddLikeResponse()
     }
 }

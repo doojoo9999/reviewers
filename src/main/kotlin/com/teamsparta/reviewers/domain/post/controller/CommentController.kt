@@ -41,18 +41,18 @@ class CommentController(
 
 
 
- @PutMapping("/{commentId}")
-    fun updateComment(
-     @PathVariable
-     postId: Long,
-     commentId: Long,
-     userId: Long,
-     @RequestBody updateCommentRequest: UpdateCommentRequest
-   ): ResponseEntity<CommentResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(commentService.updateComment(postId, commentId, userId, updateCommentRequest))
-   }
+     @PutMapping("/{commentId}")
+        fun updateComment(
+         @PathVariable
+         postId: Long,
+         commentId: Long,
+         userId: Long,
+         @RequestBody updateCommentRequest: UpdateCommentRequest
+       ): ResponseEntity<CommentResponse> {
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(commentService.updateComment(postId, commentId, userId, updateCommentRequest))
+        }
 
 
     @GetMapping() //한 포스트에 달린 전체 댓글 조회
@@ -64,7 +64,7 @@ class CommentController(
              .status(HttpStatus.OK)
              .body(commentService.getCommentByPostId(postId))
      }
-    @GetMapping("/{commentId}/all") // 댓글 따로 조회
+    @GetMapping("/{commentId}") // 댓글 따로 조회
     fun getCommentByCommentId(
         @PathVariable
         postId: Long,
@@ -87,7 +87,7 @@ class CommentController(
             .body(commentService.createReply(postId, userId, parentCommentId, createReplyRequest))
     }
 
-    @PutMapping("/{commentId}/reply") // 대댓글 수정
+    @PutMapping("/{commentId}/reply/{replyId}") // 대댓글 수정
     fun updateReply(
         @PathVariable postId: Long,
         userId: Long,
@@ -99,7 +99,7 @@ class CommentController(
             .body(commentService.updateReply(postId, userId, parentCommentId, updateReplyRequest))
     }
 
-    @DeleteMapping("/{commentId}/reply") // 대댓글 삭제
+    @DeleteMapping("/{commentId}/reply/{replyId}") // 대댓글 삭제
     fun deleteReply(
         @PathVariable postId: Long,
         userId: Long,

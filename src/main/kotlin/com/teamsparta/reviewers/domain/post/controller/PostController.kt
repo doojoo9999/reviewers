@@ -2,6 +2,7 @@ package com.teamsparta.reviewers.domain.post.controller
 
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
+import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.service.PostService
 import org.springframework.http.HttpStatus
@@ -18,6 +19,13 @@ class PostController(
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(postService.getPostList())
+    }
+
+    @GetMapping("/{postId}")
+    fun getPostById(@PathVariable postId: Long) : ResponseEntity<PostResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(postService.getPostById(postId))
     }
 
     @PostMapping()
@@ -45,6 +53,13 @@ class PostController(
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()
+    }
+
+    @PostMapping("/{postId}/like")
+    fun addLike(@PathVariable postId: Long): ResponseEntity<AddLikeResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(postService.addLike(postId))
     }
 
 }

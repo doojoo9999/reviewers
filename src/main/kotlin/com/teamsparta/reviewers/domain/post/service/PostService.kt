@@ -3,6 +3,7 @@ package com.teamsparta.reviewers.domain.post.service
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
+import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
 
 interface PostService {
 
@@ -14,4 +15,7 @@ interface PostService {
 
     fun deletePost(postId:Long)
 
+    fun getPostById(postId:Long) : PostResponse
+
+    fun addLike(postId:Long) : AddLikeResponse
 }
