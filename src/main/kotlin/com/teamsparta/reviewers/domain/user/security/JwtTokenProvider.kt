@@ -20,7 +20,7 @@ class JwtTokenProvider {
             .setSubject(email)
             .setIssuer("reviewers")
             .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))
-            .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS))) // 예시로 1시간 유효한 토큰
+            .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS)))
             .compact()
     }
 
