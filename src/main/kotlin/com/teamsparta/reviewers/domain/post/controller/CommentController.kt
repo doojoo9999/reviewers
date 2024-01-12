@@ -37,7 +37,7 @@ class CommentController(
     fun createReply(
         @PathVariable postId: Long,
         userId: Long,
-        parentCommentId: Long,
+        @PathVariable(name = "commentId") parentCommentId: Long,
         @RequestBody createReplyRequest: CreateReplyRequest
     ): ResponseEntity<CommentReplyResponse> {
         return ResponseEntity
@@ -49,7 +49,7 @@ class CommentController(
     fun updateReply(
         @PathVariable postId: Long,
         userId: Long,
-        parentCommentId: Long,
+        @PathVariable(name = "commentId") parentCommentId: Long,
         @RequestBody updateReplyRequest: UpdateReplyRequest
     ): ResponseEntity<CommentReplyResponse> {
         return ResponseEntity
@@ -61,7 +61,7 @@ class CommentController(
     fun deleteReply(
         @PathVariable postId: Long,
         userId: Long,
-        parentCommentId: Long,
+        @PathVariable(name = "commentId") parentCommentId: Long,
         @RequestBody deleteReplyRequest: DeleteReplyRequest
     ): ResponseEntity<CommentReplyResponse> {
         return ResponseEntity

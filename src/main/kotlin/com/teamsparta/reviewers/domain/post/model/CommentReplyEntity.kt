@@ -40,3 +40,11 @@
 //        parentComment = parentcomment
 //    )
 //}
+
+/**
+ *  사용자가 Controller 에 데이터를 전달하고 싶다.
+ *  그 방법이 뭐가있는지?
+ *      - Path Variable
+ *      - Request Parameter
+ *      - Request Body
+ */

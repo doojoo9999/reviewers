@@ -68,7 +68,7 @@ class CommentServiceImpl(
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
         val parentComment = commentRepository.findByIdOrNull(parentcommentId) ?: throw ModelNotFoundException(
-            "Comment", parentcommentId
+            "CommentId", parentcommentId
         )
 
         return commentRepository.save(

@@ -30,6 +30,8 @@ class CommentEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentid")
     var commentid: Long? = null
+
+    // 대댓글 지우기도 댓글 지우기와 동일하기 때문에 reply등을 새로 만들 필요 없이 commentid 재활용해보자
 }
 
 fun CommentEntity.toResponse(): CommentResponse {
