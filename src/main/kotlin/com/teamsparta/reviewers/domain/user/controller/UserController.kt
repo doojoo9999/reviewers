@@ -1,6 +1,7 @@
 package com.teamsparta.reviewers.domain.user.controller
 
 import com.teamsparta.reviewers.domain.user.dto.request.CreateUserRequest
+import com.teamsparta.reviewers.domain.user.dto.request.LoginRequest
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import com.teamsparta.reviewers.domain.user.service.UserService
 import jakarta.validation.Valid
@@ -23,4 +24,12 @@ class UserController(
             .status(HttpStatus.OK)
             .body(userService.signUp(createUserRequest))
     }
+
+    @PostMapping("/login")
+    fun login(@RequestBody loginRequest : LoginRequest) : ResponseEntity<UserResponse> {
+        val userResponse = userService.login(loginRequest)
+        return ResponseEntity(userResponse, HttpStatus.OK)
+    }
+
+
 }

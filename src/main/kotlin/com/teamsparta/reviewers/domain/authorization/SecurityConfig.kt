@@ -29,6 +29,7 @@ class SecurityConfig {
                     .requestMatchers(AntPathRequestMatcher("/swagger-ui/**")).permitAll()
                     .requestMatchers(AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
                     .requestMatchers(AntPathRequestMatcher("/api/member/signup")).permitAll()
+                    .requestMatchers(AntPathRequestMatcher("/api/**")).permitAll()
 //                    .requestMatchers(AntPathRequestMatcher("/swagger-resources/**")).permitAll()
 //                    .requestMatchers(AntPathRequestMatcher("/favicon.ico")).permitAll()
 //                    .requestMatchers(AntPathRequestMatcher("/error")).permitAll()

@@ -36,6 +36,6 @@ fun UserEntity.toResponse(): UserResponse {
         birth = birth,
         password = password,
         username = username,
-        userRole = userRole
+        userRole = userRole,
     )
 }

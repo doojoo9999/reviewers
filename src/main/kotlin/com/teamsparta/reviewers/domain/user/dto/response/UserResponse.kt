@@ -9,4 +9,5 @@ data class UserResponse (
     val username: String,
     val birth: LocalDate,
     val userRole: ROLE,
+    val token : String = "",
 )
