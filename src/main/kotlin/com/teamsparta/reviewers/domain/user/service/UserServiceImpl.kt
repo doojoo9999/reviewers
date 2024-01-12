@@ -19,8 +19,6 @@ class UserServiceImpl(
     private val encoder: PasswordEncoder
 ) : UserService {
 
-    private val passwordEncoder = BCryptPasswordEncoder()
-
     @Transactional
     override fun signUp(
         email: String,
