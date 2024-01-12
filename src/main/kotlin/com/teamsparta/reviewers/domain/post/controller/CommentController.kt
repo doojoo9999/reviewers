@@ -52,9 +52,7 @@ class CommentController(
     @GetMapping() //한 포스트에 달린 전체 댓글 조회
      fun getCommentByPostId(
          @PathVariable
-         postId: Long,
-         commentId: Long,
-         userId: Long
+         postId: Long
      ):ResponseEntity<List<CommentResponse>> {
          return ResponseEntity
              .status(HttpStatus.OK)
