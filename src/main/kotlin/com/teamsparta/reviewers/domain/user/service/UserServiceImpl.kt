@@ -10,13 +10,17 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.transaction.Transactional
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication
+import org.hibernate.query.sqm.tree.SqmNode.log
+import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import java.util.*
+import javax.naming.AuthenticationException
 
 
 @Service
@@ -54,26 +58,29 @@ class UserServiceImpl (
     }
 
     override fun login(loginRequest: LoginRequest): UserResponse {
-
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(
             loginRequest.email,
             loginRequest.password
         )
 
-        val authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken)
-        SecurityContextHolder.getContext().authentication = authentication
-
+        try {
+            val authentication = authenticationManagerBuilder.getObject().authenticate(usernamePasswordAuthenticationToken)
+            SecurityContextHolder.getContext().authentication = authentication
+        } catch (e: AuthenticationException) {
+            log.error("Authentication failed", e)
+            throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication failed", e)
+        }
 
         val userEntity: UserEntity = userRepository.findByEmail(loginRequest.email)
             ?: throw UsernameNotFoundException("User not found with email : ${loginRequest.email}")
 
-
         val token: String = Jwts.builder()
             .setSubject(userEntity.userId.toString())
-            .setExpiration(Date(System.currentTimeMillis() + 864000000))
+            .setExpiration(Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
             .signWith(SignatureAlgorithm.HS512, "1q2w3e4r")
             .compact()
 
+        log.info("Generated token: $token") // 토큰이 제대로 생성되었는지 ??
 
         return UserResponse(
             email = userEntity.email,
