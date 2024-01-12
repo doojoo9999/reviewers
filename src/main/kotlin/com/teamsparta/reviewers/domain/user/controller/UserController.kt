@@ -27,8 +27,10 @@ class UserController(
 
     @PostMapping("/login")
     fun login(@RequestBody loginRequest : LoginRequest) : ResponseEntity<UserResponse> {
-        val userResponse = userService.login(loginRequest)
-        return ResponseEntity(userResponse, HttpStatus.OK)
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(userService.login(loginRequest))
+
     }
 
 
