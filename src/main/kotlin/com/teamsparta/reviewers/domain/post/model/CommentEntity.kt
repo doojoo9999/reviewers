@@ -21,7 +21,7 @@ class CommentEntity (
     @JoinColumn(name = "postid", nullable = false)
     var post: PostEntity,
 
-// JPA 어노테이션을 사용하여 CommentEntity의 부모-자식 관계를 표현
+/*// JPA 어노테이션을 사용하여 CommentEntity의 부모-자식 관계를 표현
 
 // @ManyToOne: 다대일(N:1) 관계
 // - CommentEntity가 여러 개의 자식 댓글을 가질 수 있음
@@ -36,7 +36,7 @@ class CommentEntity (
 // - cascade 연관된 엔티티에 대한 변경을 전파
 // - orphanRemoval은 부모 엔티티에서 떨어진 자식 엔티티를 삭제할지 여부 = 데이터베이스에서도 댓글 정보를 삭제할 지 여부
     @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val commentList: MutableList<CommentEntity> = mutableListOf()
+    val commentList: MutableList<CommentEntity> = mutableListOf()*/
 
 
 
