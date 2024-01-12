@@ -13,7 +13,7 @@ interface CommentService {
 
     fun updateComment(postId: Long, commentId: Long, userId: Long, request: UpdateCommentRequest): CommentResponse
 
-    fun getCommentByPostId(postId: Long,commentId: Long): List<CommentResponse>
+    fun getCommentByPostId(postId: Long,commentId: Long,userId: Long): List<CommentResponse>
     fun getCommentByCommentId(commentId: Long): List<CommentResponse>
     fun getCommentByUserId(userId: Long): List<CommentResponse>
 }
