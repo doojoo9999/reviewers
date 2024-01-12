@@ -1,9 +1,7 @@
 package com.teamsparta.reviewers.domain.post.service
 
-import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
-import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
-import com.teamsparta.reviewers.domain.post.dto.request.DeleteCommentRequest
-import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
+import com.teamsparta.reviewers.domain.post.dto.request.*
+import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 
 interface CommentService {
@@ -14,5 +12,7 @@ interface CommentService {
 
     fun createReply(postId: Long, userId: Long, parentcommentId : Long, request : CreateReplyRequest) : CommentResponse
 
-    fun updateReply(postId: Long, userId: Long, parentcommentId: Long, request : UpdateReplyRequest) : CommentResponse
+    fun updateReply(postId: Long, userId: Long, parentcommentId: Long, request : UpdateReplyRequest) : CommentReplyResponse
+
+    fun deleteReply(postId: Long, userId: Long, parentcommentId: Long, request : DeleteReplyRequest)
 }

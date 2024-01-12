@@ -2,6 +2,7 @@ package com.teamsparta.reviewers.domain.post.controller
 
 import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
 import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
+import com.teamsparta.reviewers.domain.post.dto.request.DeleteReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
 import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
@@ -41,16 +42,28 @@ class CommentController(
             .status(HttpStatus.CREATED)
             .body(commentService.createReply(postId, userId, parentCommentId, createReplyRequest))
     }
-@PostMapping
+
+    @PostMapping("/{commentId}/reply")
     fun updateReply(
         @PathVariable postId: Long,
         userId: Long,
         parentCommentId: Long,
         @RequestBody updateReplyRequest: UpdateReplyRequest
-    ) : ResponseEntity<CommentReplyResponse> {
+    ): ResponseEntity<CommentReplyResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(commentService.updateReply(postId, userId, parentCommentId, updateReplyRequest))
     }
 
+    @PostMapping("/{commentId}/reply")
+    fun deleteReply(
+        @PathVariable postId: Long,
+        userId: Long,
+        parentCommentId: Long,
+        @RequestBody deleteReplyRequest: DeleteReplyRequest
+    ): ResponseEntity<CommentReplyResponse> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
+    }
 }

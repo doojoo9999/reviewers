@@ -1,12 +1,13 @@
 package com.teamsparta.reviewers.domain.post.model
 
+import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.user.model.UserEntity
 import jakarta.persistence.*
 
 @Entity
 @Table(name = "comments")
-class CommentEntity (
+class CommentEntity(
     @Column(name = "content", nullable = false)
     var content: String,
 
@@ -23,8 +24,8 @@ class CommentEntity (
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    var parentComment: CommentEntity?
-){
+    var parentComment: CommentEntity? = null
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentid")
@@ -35,5 +36,13 @@ fun CommentEntity.toResponse(): CommentResponse {
     return CommentResponse(
         content = content,
         userName = userName
+    )
+}
+
+fun CommentEntity.toReplyResponse(): CommentReplyResponse {
+    return CommentReplyResponse(
+        postid = post.postid,
+        userid = user.userid,
+        parentCommentId = parentComment?.commentid
     )
 }
