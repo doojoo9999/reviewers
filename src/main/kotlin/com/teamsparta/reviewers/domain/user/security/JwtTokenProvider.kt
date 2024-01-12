@@ -18,7 +18,7 @@ class JwtTokenProvider {
     fun createToken(email: String): String {
         return Jwts.builder()
             .setSubject(email)
-            .setIssuer("issuer")
+            .setIssuer("reviewers")
             .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))
             .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS))) // 예시로 1시간 유효한 토큰
             .compact()
