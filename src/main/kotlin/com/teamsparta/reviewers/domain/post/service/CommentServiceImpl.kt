@@ -111,12 +111,4 @@ class CommentServiceImpl(
         return comment.commentList.map { it.toResponse() }
     }
 
-    @Transactional
-    override fun getCommentByUserId(
-        userId: Long
-    ): List<CommentResponse> {
-        val user = userRepository.findByIdOrNull(userId)
-            ?: throw ModelNotFoundException("User", userId)
-        return user.userCommentList.map { it.toResponse() }
-    }
 }
