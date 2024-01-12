@@ -9,6 +9,7 @@ import com.teamsparta.reviewers.domain.user.service.UserService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/user")
 class UserController(
-    private val userService: UserService
+    private val userService: UserService,
+    private val encoder: PasswordEncoder
 ) {
 
     // 회원가입
@@ -33,6 +35,6 @@ class UserController(
     fun signIn(@RequestBody @Valid request: SignInRequest): ResponseEntity<SignInResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(SignInResponse(email = request.email, UserRole.USER))
+            .body(userService.signIn(request))
     }
 }

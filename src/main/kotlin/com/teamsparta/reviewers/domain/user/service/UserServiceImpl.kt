@@ -39,18 +39,32 @@ class UserServiceImpl(
 
     @Transactional
     override fun signIn(
-        userName:String,
         request: SignInRequest
     ): SignInResponse {
         val user = userRepository.findByEmail(request.email)
-        if (user != null) {
-            encoder.matches(request.password, user.password)
-            return SignInResponse(email = user.email, UserRole.USER)
+            ?.takeIf { encoder.matches(request.password, it.password) }
+            ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
 
-        } else {
-            throw IllegalStateException("Email is already in use")
-        }
+        return SignInResponse(user.email, user.userName, user.userRole)
+
+
+//        val member = memberRepository.findByAccount(request.account)
+//            ?.takeIf { encoder.matches(request.password, it.password) } ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
+//        val token = tokenProvider.createToken("${member.id}:${member.type}")
+//        return SignInResponse(member.name, member.type, token)
     }
+
+
+//        val user = userRepository.findByEmail(request.email)
+//        if (user != null) {
+//            if(encoder.matches(request.password, user.password)) {
+//                return SignInResponse(email = user.email, UserRole.USER)
+//            }
+//        } else {
+//            throw IllegalStateException("Email is already in use")
+//        }
+//        return SignInResponse()
+//    }
 
 
 }

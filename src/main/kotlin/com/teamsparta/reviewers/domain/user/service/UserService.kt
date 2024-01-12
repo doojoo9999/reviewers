@@ -9,5 +9,5 @@ interface UserService {
 
     fun signUp(email: String, request: SignUpRequest): SignUpResponse
 
-    fun signIn(userName:String, request: SignInRequest): SignInResponse
+    fun signIn(request: SignInRequest): SignInResponse
 }
