@@ -67,13 +67,11 @@ class UserServiceImpl(
             ?: throw IllegalArgumentException("해당 이메일의 사용자를 찾을 수 없습니다.")
 
         if (encoder.matches(request.password, user.password)) {
-            // 이전 비밀번호가 일치하는 경우에만 업데이트
             user.userName = request.userName
             user.birth = request.birth
             user.profile_Image = request.profile_Image
             user.userRole = request.userRole
 
-            // 이 부분에서 request.newPassword 가 존재한다면 비밀번호 업데이트를 수행할 수 있습니다.
             if (request.newPassword.isNotBlank()) {
                 val newPasswordEncoded = encoder.encode(request.newPassword)
                 user.password = newPasswordEncoded

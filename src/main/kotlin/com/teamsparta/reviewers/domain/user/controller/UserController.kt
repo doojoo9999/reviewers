@@ -1,6 +1,5 @@
 package com.teamsparta.reviewers.domain.user.controller
 
-import com.teamsparta.reviewers.domain.user.common.UserRole
 import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
 import com.teamsparta.reviewers.domain.user.dto.request.UserUpdateRequest

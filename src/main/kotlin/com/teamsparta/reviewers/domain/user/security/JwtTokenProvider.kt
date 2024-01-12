@@ -9,7 +9,6 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-
 @PropertySource("classpath:jwt.yml")
 @Service
 class JwtTokenProvider {
