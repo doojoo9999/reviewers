@@ -10,7 +10,7 @@ interface CommentService {
 
     fun deleteComment(postId : Long, commentId : Long, userId: Long, request: DeleteCommentRequest) : CommentResponse
 
-    fun createReply(postId: Long, userId: Long, parentcommentId : Long, request : CreateReplyRequest) : CommentResponse
+    fun createReply(postId: Long, userId: Long, parentcommentId : Long, request : CreateReplyRequest) : CommentReplyResponse
 
     fun updateReply(postId: Long, userId: Long, parentcommentId: Long, request : UpdateReplyRequest) : CommentReplyResponse
 
