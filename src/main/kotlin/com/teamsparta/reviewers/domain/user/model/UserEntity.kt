@@ -1,6 +1,5 @@
 package com.teamsparta.reviewers.domain.user.model
 
-import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import jakarta.persistence.*
