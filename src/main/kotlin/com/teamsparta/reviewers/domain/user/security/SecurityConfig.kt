@@ -14,9 +14,7 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(
-//    private val jwtTokenProvider: JwtTokenProvider
-) {
+class SecurityConfig() {
 
     fun configure(web: WebSecurity) {
         web.ignoring().requestMatchers( PathRequest.toStaticResources().atCommonLocations())

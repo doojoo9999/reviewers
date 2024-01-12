@@ -4,10 +4,6 @@ import com.teamsparta.reviewers.domain.user.common.UserRole
 import io.swagger.v3.oas.annotations.media.Schema
 
 data class SignUpResponse(
-
-    @Schema(description = "회원 비밀번호", example = "pass1234")
-    val password: String,
-
     @Schema(description = "회원 메일", example = "example@mail.com")
     val email: String,
 
