@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import com.teamsparta.reviewers.domain.post.dto.request.UpdateCommentRequest
-import com.teamsparta.reviewers.domain.post.service.PostServiceImpl
 
 
 import org.springframework.web.bind.annotation.*
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/reviewers/{postId}/comment")
 class CommentController(
-    private val commentService: CommentService,
-    private val postService: PostServiceImpl
+    private val commentService: CommentService
+
 ) {
 
     // 코멘트 작성
@@ -55,10 +54,11 @@ class CommentController(
          @PathVariable
          postId: Long,
          commentId: Long,
+         userId: Long
      ):ResponseEntity<List<CommentResponse>> {
          return ResponseEntity
              .status(HttpStatus.OK)
-             .body(commentService.getCommentByPostId(postId,commentId))
+             .body(commentService.getCommentByPostId(postId, commentId, userId))
      }
     @GetMapping("/comment/{commentId}") // 댓글 따로 조회
     fun getCommentByCommentId(
