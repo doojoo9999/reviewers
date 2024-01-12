@@ -7,7 +7,6 @@ import com.teamsparta.reviewers.domain.post.dto.request.DeleteCommentRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdateCommentRequest
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
-import com.teamsparta.reviewers.domain.post.model.PostEntity
 import com.teamsparta.reviewers.domain.post.model.toResponse
 import com.teamsparta.reviewers.domain.post.repository.CommentRepository
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
@@ -60,7 +59,7 @@ class CommentServiceImpl(
         comment.content = request.content
         return comment.toResponse()
     }
-/*    //63~74줄은 캡슐화, 외부에서 사용 하는데 필요한 부분만 공개하기 위한 부분
+    /*    //63~74줄은 캡슐화, 외부에서 사용 하는데 필요한 부분만 공개하기 위한 부분
     // 주어진 ID에 해당하는 게시물 찾기, 못 하면 예외처리
     private fun findPostById(postId: Long): PostEntity {
         return postRepository.findByIdOrNull(postId)
@@ -86,26 +85,37 @@ class CommentServiceImpl(
     ): CommentResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("comment", commentId)
-        if(comment.user.userid != request.userId) {
+        if (comment.user.userid != request.userId) {
             throw IdNotMatchException("id", request.userId)
         }
         commentRepository.delete(comment)
         return commentRepository.save(comment)
-        .toResponse()
-}
+            .toResponse()
+    }
 
     @Transactional
-    override fun getComment(
+    override fun getCommentByPostId(
         postId: Long,
-        commentId: Long,
-        userId: Long)
-    : List<CommentResponse> {
+        commentId: Long
+    ): List<CommentResponse> {
         val post = postRepository.findByIdOrNull(postId)
-        if (post == null) {
-            throw ModelNotFoundException("Post", postId)
-        }
+            ?: throw ModelNotFoundException("Post", postId)
+        return post.comments.map{it.toResponse()}
+    }
+    @Transactional
+    override fun getCommentByCommentId(
+        commentId: Long
+    ): List<CommentResponse> {
         val comment = commentRepository.findByIdOrNull(commentId)
-            ?:throw ModelNotFoundException("comment", commentId)
-        return listOf(comment.toResponse())
+            ?:throw ModelNotFoundException("Comment", commentId)
+        return comment.commentList.map { it.toResponse() }
+    }
+    @Transactional
+    override fun getCommentByUserId(
+        userId: Long
+    ): List<CommentResponse> {
+        val user = userRepository.findByIdOrNull(userId)
+            ?:throw ModelNotFoundException("User", userId)
+        return user.userCommentList.map { it.toResponse() }
     }
 }

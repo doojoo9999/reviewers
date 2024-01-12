@@ -1,5 +1,7 @@
 package com.teamsparta.reviewers.domain.user.model
 
+import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
+import com.teamsparta.reviewers.domain.post.model.CommentEntity
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import jakarta.persistence.*
 
@@ -18,6 +20,8 @@ class UserEntity(
     @Column(name = "username", nullable = false)
     var userName: String,
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    val userCommentList: MutableList<CommentEntity> = mutableListOf()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
