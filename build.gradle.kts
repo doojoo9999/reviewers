@@ -57,7 +57,8 @@ dependencies {
     testImplementation("org.springframework.modulith:spring-modulith-starter-test")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-validation") // validation
+    implementation("org.springframework.boot:spring-boot-starter-security") // 비밀번호 암호화
     runtimeOnly("org.postgresql:postgresql")
 }
 
