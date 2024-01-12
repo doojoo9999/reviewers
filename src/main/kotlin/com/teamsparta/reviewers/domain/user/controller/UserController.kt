@@ -23,4 +23,5 @@ class UserController(
             .status(HttpStatus.CREATED)
             .body(userService.singUp(email, singUpRequest))
     }
+
 }

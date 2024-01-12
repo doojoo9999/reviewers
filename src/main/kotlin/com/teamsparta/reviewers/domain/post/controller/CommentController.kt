@@ -58,25 +58,16 @@ class CommentController(
      ):ResponseEntity<List<CommentResponse>> {
          return ResponseEntity
              .status(HttpStatus.OK)
-             .body(commentService.getCommentByPostId(postId, commentId, userId))
+             .body(commentService.getCommentByPostId(postId))
      }
-    @GetMapping("/comment/{commentId}") // 댓글 따로 조회
+    @GetMapping("/{commentId}/all") // 댓글 따로 조회
     fun getCommentByCommentId(
         @PathVariable
+        postId: Long,
         commentId: Long
     ): ResponseEntity<List<CommentResponse>>{
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.getCommentByCommentId(commentId))
+            .body(commentService.getCommentByCommentId(postId,commentId))
     }
-    @GetMapping("/user/{userId}") // 유저별 댓글 조회
-    fun getCommentByUserId(
-        @PathVariable
-        userId: Long
-    ):ResponseEntity<List<CommentResponse>> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(commentService.getCommentByUserId(userId))
-    }
-
 }
