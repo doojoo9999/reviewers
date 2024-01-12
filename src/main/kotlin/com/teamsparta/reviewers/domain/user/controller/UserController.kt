@@ -18,7 +18,7 @@ class UserController(
 ) {
     // 회원가입
     @PostMapping("/signup")
-    fun singUp(@RequestBody @Valid createUserRequest: CreateUserRequest) : ResponseEntity<UserResponse> {
+    fun signUp(@RequestBody @Valid createUserRequest: CreateUserRequest) : ResponseEntity<UserResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.signUp(createUserRequest))
