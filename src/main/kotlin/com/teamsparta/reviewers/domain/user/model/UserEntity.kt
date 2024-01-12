@@ -1,7 +1,8 @@
 package com.teamsparta.reviewers.domain.user.model
 
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
-import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
+import com.teamsparta.reviewers.domain.user.common.UserRole
+import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
 import jakarta.persistence.*
 
 @Entity
@@ -19,6 +20,10 @@ class UserEntity(
     @Column(name = "username", nullable = false)
     var userName: String,
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role", nullable = false)
+    val userRole: UserRole = UserRole.USER,
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val userCommentList: MutableList<CommentEntity> = mutableListOf()
 ) {
@@ -27,11 +32,12 @@ class UserEntity(
     var userid: Long? = null
 }
 
-fun UserEntity.toResponse(): UserResponse {
-    return UserResponse(
+fun UserEntity.toSignUpResponse(): SignUpResponse {
+    return SignUpResponse(
         password = password,
         email = email,
         birth = birth,
         userName = userName,
+        userRole = userRole,
     )
 }

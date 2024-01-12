@@ -15,11 +15,10 @@ import com.teamsparta.reviewers.domain.post.repository.CommentRepository
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.ui.Model
+
 
 
 @Service
@@ -64,22 +63,7 @@ class CommentServiceImpl(
         comment.content = request.content
         return comment.toResponse()
     }
-    /*    //63~74줄은 캡슐화, 외부에서 사용 하는데 필요한 부분만 공개하기 위한 부분
-        // 주어진 ID에 해당하는 게시물 찾기, 못 하면 예외처리
-        private fun findPostById(postId: Long): PostEntity {
-            return postRepository.findByIdOrNull(postId)
-                ?: throw ModelNotFoundException("Post", postId)
-        }
-        // 주어진 ID에 해당하는 댓글 찾기, 못 하면 예외처리
-        private fun findCommentById(commentId: Long): CommentEntity {
-            return commentRepository.findByIdOrNull(commentId)
-                ?: throw ModelNotFoundException("Comment", commentId)
-        }
-        // 게시물과 댓글의 내용을 주어진 내용으로 업데이트
-        private fun updatePostAndCommentContents(post: PostEntity, comment: CommentEntity, newContent: String) {
-            post.content = newContent
-            comment.content = newContent
-        }*/
+
 
     @Transactional
     override fun deleteComment(
@@ -88,8 +72,10 @@ class CommentServiceImpl(
         userId: Long,
         request: DeleteCommentRequest
     ): CommentResponse {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("comment", commentId)
+        val post = postRepository.findByIdOrNull(postId)
+            ?: throw ModelNotFoundException("Post", postId)
+        val comment = commentRepository.findByIdOrNull(commentId)
+            ?: throw ModelNotFoundException("comment", commentId)
         if(comment.user.userid != request.userId) {
             throw IdNotMatchException("id", request.userId)
         }
@@ -115,10 +101,6 @@ class CommentServiceImpl(
             ?: throw ModelNotFoundException("Comment", commentId)
         return  post.comments.map { it.toResponse() }
     }
-
-            .toResponse()
-    }
-
     @Transactional
     override fun createReply( // 대댓글 작성
         postId: Long,
@@ -126,11 +108,14 @@ class CommentServiceImpl(
         parentcommentId: Long,
         request: CreateReplyRequest
     ): CommentReplyResponse {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
-        val parentComment = commentRepository.findByIdOrNull(parentcommentId) ?: throw ModelNotFoundException(
-            "CommentId", parentcommentId
-        )
+        val post = postRepository.findByIdOrNull(postId)
+            ?: throw ModelNotFoundException("Post", postId)
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw ModelNotFoundException("User", userId)
+        val parentComment = commentRepository.findByIdOrNull(parentcommentId)
+            ?: throw ModelNotFoundException(
+                "CommentId", parentcommentId
+            )
 
         return commentRepository.save(
             CommentEntity(
@@ -142,7 +127,6 @@ class CommentServiceImpl(
             )
         ).toReplyResponse()
     }
-
     @Transactional
     override fun updateReply(// 대댓글 수정
         postId: Long,
@@ -150,8 +134,10 @@ class CommentServiceImpl(
         parentcommentId: Long,
         request: UpdateReplyRequest
     ): CommentReplyResponse {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
+        val post = postRepository.findByIdOrNull(postId)
+            ?: throw ModelNotFoundException("Post", postId)
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw ModelNotFoundException("User", userId)
         val parentComment = commentRepository.findByIdOrNull(parentcommentId) ?: throw ModelNotFoundException(
             "Comment", parentcommentId
         )
@@ -166,20 +152,21 @@ class CommentServiceImpl(
             )
         ).toReplyResponse()
     }
-
     @Transactional
-    override fun deleteReply( // 대댓글 삭제
+    override fun deleteReply(
         postId: Long,
         userId: Long,
         parentcommentId: Long,
         request: DeleteReplyRequest
     ) {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
-        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
-        val parentComment = commentRepository.findByIdOrNull(parentcommentId) ?: throw ModelNotFoundException(
+        val post = postRepository.findByIdOrNull(postId)
+            ?: throw ModelNotFoundException("Post", postId)
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw ModelNotFoundException("User", userId)
+        val parentComment = commentRepository.findByIdOrNull(parentcommentId)
+            ?: throw ModelNotFoundException(
             "ParentComment", parentcommentId
         )
-
         commentRepository.delete(parentComment)
     }
 }
