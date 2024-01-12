@@ -1,5 +1,6 @@
 package com.teamsparta.reviewers.domain.user.service
 
+import com.teamsparta.reviewers.domain.user.common.UserRole
 import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
 import com.teamsparta.reviewers.domain.user.dto.response.SignInResponse
@@ -39,20 +40,20 @@ class UserServiceImpl(
         ).toSignUpResponse()
     }
 
-//    @Transactional
-//    override fun signIn(request: SignInRequest): SignInResponse {
-//        val user = userRepository.findByEmail(request.email)?.let { user ->
-//            return if (passwordEncoder.matches(request.password, user.password)) {
-//            return if (passwordEncoder.matches(request.password, user.password)) {
-//                SignInResponse(success = true, message = "Login successful")
-//
-//            } else {
-//                SignInResponse(success = false, message = "Incorrect password")
-//            }
-//        }
-//
-//        return SignInResponse(success = false, message = "User not found")
-//    }
+    @Transactional
+    override fun signIn(
+        userName:String,
+        request: SignInRequest
+    ): SignInResponse {
+        val user = userRepository.findByEmail(request.email)
+        if (user != null) {
+            encoder.matches(request.password, user.password)
+
+            return SignInResponse(userName = user.userName, UserRole.USER)
+        } else {
+            throw IllegalStateException("Email is already in use")
+        }
+    }
 
 
 }

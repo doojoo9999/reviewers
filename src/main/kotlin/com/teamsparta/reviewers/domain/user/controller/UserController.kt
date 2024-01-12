@@ -1,5 +1,6 @@
 package com.teamsparta.reviewers.domain.user.controller
 
+import com.teamsparta.reviewers.domain.user.common.UserRole
 import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
 import com.teamsparta.reviewers.domain.user.dto.response.SignInResponse
@@ -32,13 +33,10 @@ class UserController(
     }
 
     // 로그인
-//    @PostMapping("/signin")
-//    fun signIn(@RequestBody @Valid request: SignInRequest): ResponseEntity<SignInResponse> {
-//        val user = userRepository.findByEmail(request.email)
-//            ?.takeIf { encoder.matches(request.password, it.password) }
-//            ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
-//        val token =
-//
-//        return SignInResponse(user.userName, user.userRole, )
-//    }
+    @PostMapping("/signin")
+    fun signIn(@RequestBody @Valid request: SignInRequest): ResponseEntity<SignInResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(SignInResponse(userName = request.email, UserRole.USER))
+    }
 }

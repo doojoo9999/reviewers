@@ -8,11 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher
-import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer
-
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +23,7 @@ class SecurityConfig(
                 authorize("/swagger-ui/**", permitAll)
                 authorize("/v3/api-docs/**", permitAll)
                 authorize("/api/user/signup", permitAll)
-                authorize("/signin", permitAll)
+                authorize("/api/user/signin", permitAll)
                 authorize("/admin/**", hasAuthority(UserRole.ADMIN.name))
             }
             formLogin {
