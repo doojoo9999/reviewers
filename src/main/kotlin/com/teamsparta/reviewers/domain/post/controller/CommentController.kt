@@ -53,7 +53,7 @@ class CommentController(
      ):ResponseEntity<List<CommentResponse>> {
          return ResponseEntity
              .status(HttpStatus.OK)
-             .body(commentService.getComment(postId, commentId, userId))
+             .body(commentService.getComment(commentId, userId))
      }
 
 }
