@@ -1,9 +1,6 @@
 package com.teamsparta.reviewers.domain.post.controller
 
-import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
-import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
-import com.teamsparta.reviewers.domain.post.dto.request.DeleteReplyRequest
-import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
+import com.teamsparta.reviewers.domain.post.dto.request.*
 import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.service.CommentService
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import com.teamsparta.reviewers.domain.post.dto.request.UpdateCommentRequest
 
 
 import org.springframework.web.bind.annotation.*
@@ -38,7 +34,6 @@ class CommentController(
             .status(HttpStatus.CREATED)
             .body(commentService.createComment(postId, userId, createCommentRequest))
     }
-
 
 
  @PutMapping("/{commentId}")
@@ -73,6 +68,17 @@ class CommentController(
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(commentService.getCommentByCommentId(postId,commentId))
+    }
+    @DeleteMapping("/{commentId}") // 댓글 삭제
+    fun deleteComment(
+        @PathVariable postId: Long,
+        userId: Long,
+        commentId: Long,
+        @RequestBody deleteCommentRequest: DeleteCommentRequest
+    ): ResponseEntity<CommentResponse> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
     }
 
     @PostMapping("/{commentId}/reply") // 대댓글 작성
@@ -110,4 +116,5 @@ class CommentController(
             .status(HttpStatus.NO_CONTENT)
             .build()
     }
+
 }

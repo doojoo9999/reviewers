@@ -165,8 +165,9 @@ class CommentServiceImpl(
             ?: throw ModelNotFoundException("User", userId)
         val parentComment = commentRepository.findByIdOrNull(parentcommentId)
             ?: throw ModelNotFoundException(
-            "ParentComment", parentcommentId
-        )
+                "ParentComment", parentcommentId
+            )
         commentRepository.delete(parentComment)
     }
+
 }
