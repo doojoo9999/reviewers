@@ -96,9 +96,15 @@ class CommentServiceImpl(
 
     @Transactional
     override fun getComment(
+        postId: Long,
         commentId: Long,
         userId: Long)
     : List<CommentResponse> {
+        val post = postRepository.findByIdOrNull(postId)
+        if (post == null) {
+
+            throw ModelNotFoundException("Post", postId)
+        }
         val comment = commentRepository.findByIdOrNull(commentId)
             ?: throw ModelNotFoundException("comment", commentId)
         return comment.commentList.map{it.toResponse()}
