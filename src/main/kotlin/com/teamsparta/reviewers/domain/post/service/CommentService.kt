@@ -15,5 +15,4 @@ interface CommentService {
 
     fun getCommentByPostId(postId: Long): List<CommentResponse>
     fun getCommentByCommentId(postId: Long, commentId: Long): List<CommentResponse>
-    fun getCommentByUserId(userId: Long,): List<CommentResponse>
 }
