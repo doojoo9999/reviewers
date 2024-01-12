@@ -1,9 +1,11 @@
 package com.teamsparta.reviewers.domain.user.service
 
-import com.teamsparta.reviewers.domain.user.dto.request.SingUpRequest
-import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
+import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
+import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
 
 interface UserService {
 
-    fun singUp(email: String, request: SingUpRequest): UserResponse
+    fun signUp(email: String, request: SignUpRequest): SignUpResponse
+
+//    fun signIn(request: SignInRequest): SignInResponse
 }

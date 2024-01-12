@@ -58,7 +58,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.springframework.boot:spring-boot-starter-validation") // validation
-    implementation("org.springframework.boot:spring-boot-starter-security") // 비밀번호 암호화
+
+    // 비밀번호 암호화
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+
     runtimeOnly("org.postgresql:postgresql")
 }
 

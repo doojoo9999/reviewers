@@ -65,5 +65,5 @@ class CommentServiceImpl(
         commentRepository.delete(comment)
         return commentRepository.save(comment)
         .toResponse()
-}
+    }
 }
