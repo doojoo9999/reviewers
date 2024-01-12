@@ -42,6 +42,8 @@ class CommentEntity (
 
 
     ){
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentid")

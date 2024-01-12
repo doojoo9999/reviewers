@@ -12,6 +12,8 @@ import com.teamsparta.reviewers.domain.post.repository.CommentRepository
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -106,9 +108,9 @@ class CommentServiceImpl(
     override fun getCommentByCommentId(
         postId: Long, commentId: Long
     ): List<CommentResponse> {
-        val comment = commentRepository.findByIdOrNull(commentId)
+        val post = postRepository.findByIdOrNull(postId)
             ?: throw ModelNotFoundException("Comment", commentId)
-        return comment.commentList.map { it.toResponse() }
+        return  post.comments.map { it.toResponse() }
     }
 
 }
