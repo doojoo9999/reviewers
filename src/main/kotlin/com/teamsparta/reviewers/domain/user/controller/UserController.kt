@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/user")
 class UserController(
-    private val userService: UserService,
-    private val userRepository: UserRepository,
-    private val encoder: PasswordEncoder
+    private val userService: UserService
 ) {
 
     // 회원가입
