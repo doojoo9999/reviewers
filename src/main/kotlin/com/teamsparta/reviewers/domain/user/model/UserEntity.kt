@@ -34,7 +34,6 @@ class UserEntity(
 
 fun UserEntity.toSignUpResponse(): SignUpResponse {
     return SignUpResponse(
-        password = password,
         email = email,
         birth = birth,
         userName = userName,
