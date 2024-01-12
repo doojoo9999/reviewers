@@ -3,7 +3,7 @@ package com.teamsparta.reviewers.domain.user.dto.request
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 
-data class LoginRequest(
+data class SignInRequest(
     @field: NotBlank
     @JsonProperty("email")
     private val _email: String?,

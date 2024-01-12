@@ -2,14 +2,13 @@ package com.teamsparta.reviewers.domain.user.service
 
 import com.teamsparta.reviewers.domain.exception.SameAccountException
 import com.teamsparta.reviewers.domain.user.dto.request.CreateUserRequest
-import com.teamsparta.reviewers.domain.user.dto.request.LoginRequest
+import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.response.UserResponse
 import com.teamsparta.reviewers.domain.user.model.*
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.transaction.Transactional
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication
 import org.hibernate.query.sqm.tree.SqmNode.log
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -57,10 +56,11 @@ class UserServiceImpl (
         return savedUser.toResponse()
     }
 
-    override fun login(loginRequest: LoginRequest): UserResponse {
+    @Transactional
+    override fun signIn(signInRequest: SignInRequest): UserResponse {
         val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(
-            loginRequest.email,
-            loginRequest.password
+            signInRequest.email,
+            signInRequest.password
         )
 
         try {
@@ -71,8 +71,8 @@ class UserServiceImpl (
             throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication failed", e)
         }
 
-        val userEntity: UserEntity = userRepository.findByEmail(loginRequest.email)
-            ?: throw UsernameNotFoundException("User not found with email : ${loginRequest.email}")
+        val userEntity: UserEntity = userRepository.findByEmail(signInRequest.email)
+            ?: throw UsernameNotFoundException("User not found with email : ${signInRequest.email}")
 
         val token: String = Jwts.builder()
             .setSubject(userEntity.userId.toString())

@@ -17,9 +17,9 @@ class SecurityConfig {
             csrf { disable() }
             authorizeRequests {
                 authorize("/swagger-ui/**", permitAll)
-//                authorize("/api/member/**", permitAll)
+                authorize("/api/member/**", permitAll)
                 authorize("/api/member/signup", permitAll)
-                authorize("/api/member/login", permitAll)
+                authorize("/api/member/signin", permitAll)
 //                authorize("/api/**")
             }
         }
