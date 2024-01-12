@@ -33,6 +33,6 @@ class UserController(
     fun signIn(@RequestBody @Valid request: SignInRequest): ResponseEntity<SignInResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(SignInResponse(userName = request.email, UserRole.USER))
+            .body(SignInResponse(email = request.email, UserRole.USER))
     }
 }

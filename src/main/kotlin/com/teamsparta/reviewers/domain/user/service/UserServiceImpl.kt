@@ -45,8 +45,8 @@ class UserServiceImpl(
         val user = userRepository.findByEmail(request.email)
         if (user != null) {
             encoder.matches(request.password, user.password)
+            return SignInResponse(email = user.email, UserRole.USER)
 
-            return SignInResponse(userName = user.userName, UserRole.USER)
         } else {
             throw IllegalStateException("Email is already in use")
         }
