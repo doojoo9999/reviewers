@@ -11,6 +11,8 @@ interface CommentService {
 
     fun deleteComment(postId : Long, commentId : Long, userId: Long, request: DeleteCommentRequest) : CommentResponse
 
-    fun updateComment(postId: Long, commentId: Long, request: UpdateCommentRequest): CommentResponse
+    fun updateComment(postId: Long, commentId: Long, userId: Long, request: UpdateCommentRequest): CommentResponse
 
+    fun getCommentByPostId(postId: Long): List<CommentResponse>
+    fun getCommentByCommentId(postId: Long, commentId: Long): List<CommentResponse>
 }

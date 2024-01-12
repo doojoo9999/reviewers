@@ -17,11 +17,13 @@ class PostEntity (
 
     @Column(name = "likes", nullable = false)
     var likes : Int? = 0,
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val comments: MutableList<CommentEntity> = mutableListOf()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var postid: Long = 0
-
 
     fun addLikes() {
         likes = likes!!.plus(1)
