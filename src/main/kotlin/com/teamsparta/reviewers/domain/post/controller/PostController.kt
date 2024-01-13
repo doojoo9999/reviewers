@@ -60,11 +60,11 @@ class PostController(
     @PostMapping("/{postId}/like")
     fun addLike(
         @PathVariable postId: Long,
-        @AuthenticationPrincipal user: UserEntity
+        @AuthenticationPrincipal email: String
     ): ResponseEntity<AddLikeResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(postService.addLike(user.userid!!, postId))
+            .body(postService.addLike(email, postId))
     }
 
 }

@@ -7,8 +7,8 @@ import jakarta.persistence.*
 @Table(name = "likes")
 class LikeEntity(
     @ManyToOne
-    @JoinColumn(name = "userid")
-    val user: UserEntity,
+    @JoinColumn(name = "email")
+    val email: UserEntity,
 
     @ManyToOne
     @JoinColumn(name = "postid")

@@ -11,6 +11,7 @@ import com.teamsparta.reviewers.domain.post.model.toAddLikeResponse
 import com.teamsparta.reviewers.domain.post.model.toResponse
 import com.teamsparta.reviewers.domain.post.repository.LikeRepository
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
+import com.teamsparta.reviewers.domain.user.model.UserEntity
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -59,15 +60,15 @@ class PostServiceImpl(
         postRepository.delete(post)
     }
 
-    override fun addLike(userId: Long, postId: Long): AddLikeResponse {
-        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException ("User", userId)
+    override fun addLike(email: String, postId: Long): AddLikeResponse {
+        val user = userRepository.findByEmail(email) ?: throw ModelNotFoundException ("email", 1)
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
 
         if (likeRepository.existsByUserAndPost(user, post)) {
             throw IllegalArgumentException ("따봉은 계정 당 1회만 가능합니다.")
         }
         post.likes += 1
-        likeRepository.save(LikeEntity(user, post))
+        likeRepository.save(LikeEntity(email, post))
 
         return postRepository.save(post).toAddLikeResponse()
     }
