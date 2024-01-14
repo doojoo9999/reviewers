@@ -84,4 +84,17 @@ class UserServiceImpl(
             throw IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.")
         }
     }
+
+    // 로그아웃은 클라이언트에서 JavaScript를 통해 진행됨 (document.cookie = "token=; ) 등등등,.,,,.,.,.,.,. 이라고 함
+    override fun signOut(email: String): SignOutResponse {
+        return SignOutResponse(message = "complete logout:$email", success = true)
+    }
+
+
+
+    override fun withdraw(email: String): WithdrawResponse {
+        val user = userRepository.findByEmail(email) ?: return WithdrawResponse(message = "not founded email.", success = false)
+        userRepository.delete(user)
+        return WithdrawResponse(message="complete withdraw email:$email", success = true)
+    }
 }
