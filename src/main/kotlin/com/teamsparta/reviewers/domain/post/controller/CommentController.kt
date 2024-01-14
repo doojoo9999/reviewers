@@ -1,9 +1,6 @@
 package com.teamsparta.reviewers.domain.post.controller
 
-import com.teamsparta.reviewers.domain.post.dto.request.CreateCommentRequest
-import com.teamsparta.reviewers.domain.post.dto.request.CreateReplyRequest
-import com.teamsparta.reviewers.domain.post.dto.request.DeleteReplyRequest
-import com.teamsparta.reviewers.domain.post.dto.request.UpdateReplyRequest
+import com.teamsparta.reviewers.domain.post.dto.request.*
 import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
 import com.teamsparta.reviewers.domain.post.service.CommentService
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import com.teamsparta.reviewers.domain.post.dto.request.UpdateCommentRequest
 
 
 import org.springframework.web.bind.annotation.*

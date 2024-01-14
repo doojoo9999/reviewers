@@ -17,6 +17,7 @@ class PostController(
     private val postService: PostService
 ) {
     @GetMapping()
+
     fun getPostList() : ResponseEntity<List<PostResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -24,7 +25,7 @@ class PostController(
     }
 
     @GetMapping("/{postId}")
-    fun getPostById(@PathVariable postId: Long) : ResponseEntity<PostResponse> {
+    fun getPostById(@AuthenticationPrincipal @PathVariable postId: Long) : ResponseEntity<PostResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(postService.getPostById(postId))
@@ -60,7 +61,8 @@ class PostController(
     @PostMapping("/{postId}/like")
     fun addLike(
         @PathVariable postId: Long,
-        @AuthenticationPrincipal email: String
+        @AuthenticationPrincipal email: String,
+
     ): ResponseEntity<AddLikeResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)

@@ -19,7 +19,7 @@ class JwtTokenProvider {
             .setSubject(email)
             .setIssuer("reviewers")
             .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))
-            .setExpiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS)))
+            .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.SECONDS)))
             .compact()
     }
 

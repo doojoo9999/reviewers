@@ -27,6 +27,8 @@ class PostEntity (
     @JoinColumn(name = "email")
     val email : UserEntity,
 
+
+
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,26 +1,24 @@
 package com.teamsparta.reviewers.domain.post.service
 
+import com.teamsparta.reviewers.domain.exception.EmailNotFoundException
 import com.teamsparta.reviewers.domain.exception.ModelNotFoundException
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
-import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
-import com.teamsparta.reviewers.domain.post.model.LikeEntity
+import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.model.PostEntity
 import com.teamsparta.reviewers.domain.post.model.toAddLikeResponse
 import com.teamsparta.reviewers.domain.post.model.toResponse
-import com.teamsparta.reviewers.domain.post.repository.LikeRepository
 import com.teamsparta.reviewers.domain.post.repository.PostRepository
-import com.teamsparta.reviewers.domain.user.model.UserEntity
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
 class PostServiceImpl(
     private val postRepository: PostRepository,
     private val userRepository: UserRepository,
-    private val likeRepository: LikeRepository,
 ) : PostService {
 
     override fun createPost(request: CreatePostRequest): PostResponse {
@@ -66,15 +64,24 @@ class PostServiceImpl(
     }
 
     override fun addLike(email: String, postId: Long): AddLikeResponse {
-        val email = userRepository.findByEmail(email) ?: throw ModelNotFoundException ("email", 1)
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
 
-        if (likeRepository.existsByEmailAndPost(email, post)) {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userEmail = authentication.name
+
+        if (userEmail == "anonymousUser") {
+            throw IllegalArgumentException ("로그인이 필요합니다.")
+        }
+
+        val user = userRepository.findByEmail(userEmail) ?: throw EmailNotFoundException("User", userEmail)
+        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+
+        if (user.likedPosts.contains(post)) {
             throw IllegalArgumentException ("따봉은 계정 당 1회만 가능합니다.")
         }
         post.likes += 1
-        likeRepository.save(LikeEntity(email, post))
+        user.likedPosts.add(post)
 
+        userRepository.save(user)
         return postRepository.save(post).toAddLikeResponse()
     }
 }
