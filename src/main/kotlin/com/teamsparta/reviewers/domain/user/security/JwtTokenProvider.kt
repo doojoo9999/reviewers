@@ -27,6 +27,12 @@ class JwtTokenProvider {
     fun validateToken(token: String?): String? {
         return try {
             val claims = Jwts.parserBuilder().build().parseClaimsJwt(token).body
+            val expiration = claims.expiration
+
+            if (expiration != null && expiration.before(Date())) {
+                throw IllegalArgumentException("토큰이 만료되었습니다.")
+            }
+
             claims.subject
         } catch (e: Exception) {
             null

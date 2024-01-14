@@ -49,9 +49,11 @@ class UserServiceImpl(
             ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
 
         val token = jwtTokenProvider.createToken(user.email)
-        if (jwtTokenProvider.validateToken(token) == null) {
-            throw IllegalArgumentException("토큰이 유효하지 않습니다.")
-        }
+//        if (jwtTokenProvider.validateToken(token) == null) {
+//            throw IllegalArgumentException("토큰이 유효하지 않습니다.")
+//        }
+
+        jwtTokenProvider.validateToken(token)
 
         return SignInResponse(user.email, user.userName, user.userRole, token)
     }

@@ -9,6 +9,7 @@ import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
 import com.teamsparta.reviewers.domain.user.dto.response.UserUpdateResponse
 import com.teamsparta.reviewers.domain.user.dto.response.WithdrawResponse
 
+
 interface UserService {
 
     fun signUp(email: String, request: SignUpRequest): SignUpResponse
