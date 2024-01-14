@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional
 class UserServiceImpl(
     private val userRepository: UserRepository,
     private val encoder: PasswordEncoder,
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val token: JwtTokenProvider
 ) : UserService {
 
     @Transactional
@@ -44,21 +45,27 @@ class UserServiceImpl(
     }
 
     @Transactional
-    override fun signIn(
-        request: SignInRequest
-    ): SignInResponse {
+    override fun signIn(request: SignInRequest): SignInResponse {
         val user = userRepository.findByEmail(request.email)
             ?.takeIf { encoder.matches(request.password, it.password) }
             ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
 
         val token = jwtTokenProvider.createToken(user.email)
-//        if (jwtTokenProvider.validateToken(token) == null) {
-//            throw IllegalArgumentException("토큰이 유효하지 않습니다.")
-//        }
-        jwtTokenProvider.validateToken(token)
+
+        // 토큰 생성 후 바로 유효성 검사
+        try {
+            val validatedSubject = jwtTokenProvider.validateToken(token)
+            println("토큰 검증 성공: Subject - $validatedSubject")
+        } catch (e: IllegalArgumentException) {
+            throw IllegalArgumentException("로그인 실패: 토큰이 유효하지 않습니다.", e)
+        }
+
+        // 로그 추가
+        println("로그인 성공: ${user.email}")
 
         return SignInResponse(user.email, user.userName, user.userRole, token)
     }
+
 
     @Transactional
     override fun userUpdate(
@@ -78,10 +85,25 @@ class UserServiceImpl(
                 val newPasswordEncoded = encoder.encode(request.newPassword)
                 user.password = newPasswordEncoded
             }
+            // 현재 사용자 정보를 기반으로 토큰 생성
+            val currentToken = jwtTokenProvider.createToken(user.email)
 
-            userRepository.save(user)
+            // 기존 토큰을 검증
+            try {
+                val validatedSubject = jwtTokenProvider.validateToken(currentToken)
+                if (validatedSubject != user.email) {
+                    // 토큰의 subject(사용자 이메일)이 일치하지 않으면 글 수정 불가능
+                    throw IllegalArgumentException("글 수정 권한이 없습니다. 다시 로그인 해주세요.")
+                }
+            } catch (e: IllegalArgumentException) {
+                // 토큰 검증 실패 시 글 수정 불가능
+                throw IllegalArgumentException("글 수정 권한이 없습니다. 다시 로그인 해주세요.")
+            }
 
-            return UserUpdateResponse(user.userName, user.birth, user.profile_Image, user.userRole)
+            // 사용자 정보 저장
+            val updatedUser = userRepository.save(user)
+
+            return UserUpdateResponse(updatedUser.userName, updatedUser.birth, updatedUser.profile_Image, updatedUser.userRole, currentToken)
         } else {
             throw IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.")
         }
@@ -91,8 +113,6 @@ class UserServiceImpl(
     override fun signOut(email: String): SignOutResponse {
         return SignOutResponse(message = "complete logout:$email", success = true)
     }
-
-
 
     override fun withdraw(email: String): WithdrawResponse {
         val user = userRepository.findByEmail(email) ?: return WithdrawResponse(message = "not founded email.", success = false)

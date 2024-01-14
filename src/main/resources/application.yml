@@ -20,3 +20,8 @@ logging:
         orm:
           jdbc:
             bind: trace
+
+jwt:
+  secret-key: 0tkqvWlF6OOkkukDIl3sxgzNSssIDOxJ
+  expiration-seconds: 2
+  issuer: reviewers
