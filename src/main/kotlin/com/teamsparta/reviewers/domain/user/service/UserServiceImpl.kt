@@ -1,5 +1,6 @@
 package com.teamsparta.reviewers.domain.user.service
 
+import com.teamsparta.reviewers.domain.post.dto.response.SignOutResponse
 import com.teamsparta.reviewers.domain.user.dto.request.SignInRequest
 import com.teamsparta.reviewers.domain.user.dto.request.SignUpRequest
 import com.teamsparta.reviewers.domain.user.dto.request.UserUpdateRequest
