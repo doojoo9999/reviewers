@@ -11,7 +11,6 @@ spring:
     suffix: .html
     check-template-location: false
 
-
 logging:
   level:
     org:
@@ -21,7 +20,3 @@ logging:
           jdbc:
             bind: trace
 
-jwt:
-  secret-key: 0tkqvWlF6OOkkukDIl3sxgzNSssIDOxJ
-  expiration-seconds: 2
-  issuer: reviewers

@@ -15,6 +15,4 @@ data class UserUpdateResponse(
 
     @Schema(description = "회원 유형", example = "USER")
     val userRole: UserRole,
-
-    val token: String,
 )

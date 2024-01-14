@@ -13,5 +13,5 @@ data class SignInResponse(
     @Schema(description = "회원 유형", example = "USER")
     val userRole: UserRole,
 
-    val token: String,
+    val token: String? = null  // 토큰 추가
 )

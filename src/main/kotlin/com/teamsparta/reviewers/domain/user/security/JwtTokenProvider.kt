@@ -1,43 +1,55 @@
 package com.teamsparta.reviewers.domain.user.security
 
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
-import org.springframework.boot.context.properties.ConfigurationProperties
+import jakarta.xml.bind.DatatypeConverter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.PropertySource
 import org.springframework.stereotype.Service
-import java.sql.Timestamp
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.*
 
+
 @Service
-@ConfigurationProperties(prefix = "jwt")
-@PropertySource("classpath:application.yml")
-class JwtTokenProvider {
+@PropertySource("classpath:jwt.yml")
+class JwtTokenProvider(
+    @Value("\${secret-key}") private val secretKey: String,
+    @Value("\${expiration-minutes}") private val expirationMinutes: Long,
+    @Value("\${issuer}") private val issuer: String
+) {
 
-    lateinit var secretKey: String
-    var expirationSeconds: Long = 0
-    lateinit var issuer: String
+    init {
+        println("secretKey: $secretKey, expirationMinutes: $expirationMinutes, issuer: $issuer")
+    }
 
-    // JwtTokenProvider 클래스의 토큰 생성 메서드 수정
+    // 토큰 생성
     fun createToken(email: String): String {
         val key = Keys.hmacShaKeyFor(secretKey.toByteArray())
+
+        val issuedAt = Date.from(Instant.now())
+        val expiration = Date.from(Instant.now().plus(expirationMinutes, ChronoUnit.MINUTES))
+
         return Jwts.builder()
             .setSubject(email)
             .setIssuer(issuer)
-            .setIssuedAt(Timestamp.valueOf(LocalDateTime.now()))
-            .setExpiration(Date.from(Instant.now().plus(expirationSeconds, ChronoUnit.SECONDS)))
+            .setIssuedAt(issuedAt)
+            .setExpiration(expiration)
             .signWith(key, SignatureAlgorithm.HS256)
             .compact()
+            .also {
+                println("Generated Token: $it") // 디버깅을 위해 생성된 토큰을 출력
+            }
     }
 
-    fun validateToken(token: String?): String {
-        try {
-            val key = Keys.hmacShaKeyFor(secretKey.toByteArray())
-            val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
+    // JWT 유효성 검사
+    fun validateToken(token: String?): String? {
+        return try {
+            val claims = Jwts.parserBuilder().build().parseClaimsJwt(token).body
             val expiration = claims.expiration
 
             if (expiration != null) {
@@ -49,9 +61,9 @@ class JwtTokenProvider {
                 }
             }
 
-            return claims.subject
+            claims.subject
         } catch (e: Exception) {
-            throw IllegalArgumentException("토큰 유효성 검사 실패", e)
+            null
         }
     }
 }
