@@ -6,6 +6,7 @@ import com.teamsparta.reviewers.domain.user.dto.request.UserUpdateRequest
 import com.teamsparta.reviewers.domain.user.dto.response.SignInResponse
 import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
 import com.teamsparta.reviewers.domain.user.dto.response.UserUpdateResponse
+import com.teamsparta.reviewers.domain.user.dto.response.WithdrawResponse
 import com.teamsparta.reviewers.domain.user.model.UserEntity
 import com.teamsparta.reviewers.domain.user.model.toSignUpResponse
 import com.teamsparta.reviewers.domain.user.repository.UserRepository
