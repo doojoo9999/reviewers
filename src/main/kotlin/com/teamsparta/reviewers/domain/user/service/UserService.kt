@@ -15,4 +15,9 @@ interface UserService {
     fun signIn(request: SignInRequest): SignInResponse
 
     fun userUpdate(email: String, request: UserUpdateRequest): UserUpdateResponse
+
+    fun signOut(email:String): SignOutResponse
+
+    fun withdraw(email:String) : WithdrawResponse
+
 }
