@@ -1,5 +1,6 @@
 package com.teamsparta.reviewers.domain.user.dto.response
 
+import com.teamsparta.reviewers.domain.user.common.UserRole
 import io.swagger.v3.oas.annotations.media.Schema
 
 data class UserUpdateResponse(
@@ -11,4 +12,7 @@ data class UserUpdateResponse(
 
     @Schema(description = "회원 프로필 이미지")
     val profile_Image: String,
+
+    @Schema(description = "회원 유형", example = "USER")
+    val userRole: UserRole,
 )

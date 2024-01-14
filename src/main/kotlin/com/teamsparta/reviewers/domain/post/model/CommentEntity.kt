@@ -11,9 +11,6 @@ class CommentEntity(
     @Column(name = "content", nullable = false)
     var content: String,
 
-    @Column(name = "username", nullable = false)
-    var userName: String,
-
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
     var user: UserEntity,
@@ -22,9 +19,9 @@ class CommentEntity(
     @JoinColumn(name = "postid", nullable = false)
     var post: PostEntity,
 
-    @ManyToOne
-    @JoinColumn(name = "parent_comment_id")
-    var parentComment: CommentEntity? = null
+    @Column(name = "parentcommentid")
+    var parentCommentId: Long? = null
+
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +34,7 @@ class CommentEntity(
 fun CommentEntity.toResponse(): CommentResponse {
     return CommentResponse(
         content = content,
-        userName = userName
+        userid = user.userid,
     )
 }
 
@@ -45,6 +42,6 @@ fun CommentEntity.toReplyResponse(): CommentReplyResponse {
     return CommentReplyResponse(
         postid = post.postid,
         userid = user.userid,
-        parentCommentId = parentComment?.commentid
+        parentCommentId = parentCommentId
     )
 }

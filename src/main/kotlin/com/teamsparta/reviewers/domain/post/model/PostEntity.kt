@@ -1,6 +1,8 @@
 package com.teamsparta.reviewers.domain.post.model
 
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
+import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
+import com.teamsparta.reviewers.domain.user.model.UserEntity
 import jakarta.persistence.*
 
 @Entity
@@ -16,18 +18,21 @@ class PostEntity (
     var thumbnailUrl: String,
 
     @Column(name = "likes", nullable = false)
-    var likes : Int? = 0,
+    var likes : Int,
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val comments: MutableList<CommentEntity> = mutableListOf()
+    val comments: MutableList<CommentEntity> = mutableListOf(),
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    val user : UserEntity,
+
+
+
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var postid: Long = 0
-
-    fun addLikes() {
-        likes = likes!!.plus(1)
-    }
 }
 
 fun PostEntity.toResponse(): PostResponse {
@@ -35,7 +40,15 @@ fun PostEntity.toResponse(): PostResponse {
         thumbnailUrl = thumbnailUrl,
         title = title,
         content = content,
-        likes = 0
+        likes = likes
+    )
+}
+
+fun PostEntity.toAddLikeResponse() : AddLikeResponse {
+    return AddLikeResponse(
+        email = user.email,
+        postid = postid,
+        likes = likes,
     )
 }
 

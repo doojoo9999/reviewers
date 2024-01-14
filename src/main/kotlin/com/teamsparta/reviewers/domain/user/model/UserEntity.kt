@@ -1,6 +1,7 @@
 package com.teamsparta.reviewers.domain.user.model
 
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
+import com.teamsparta.reviewers.domain.post.model.PostEntity
 import com.teamsparta.reviewers.domain.user.common.UserRole
 import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
 import jakarta.persistence.*
@@ -20,12 +21,19 @@ class UserEntity(
     @Column(name = "username", nullable = false)
     var userName: String,
 
+    @Column(name = "profile_image", nullable = false)
+    var profile_Image: String,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
-    val userRole: UserRole = UserRole.USER,
+    var userRole: UserRole = UserRole.USER,
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    val userCommentList: MutableList<CommentEntity> = mutableListOf()
+    val userCommentList: MutableList<CommentEntity> = mutableListOf(),
+
+    @ManyToMany
+    var likedPosts: MutableList<PostEntity> = mutableListOf(),
+
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +42,10 @@ class UserEntity(
 
 fun UserEntity.toSignUpResponse(): SignUpResponse {
     return SignUpResponse(
-        password = password,
         email = email,
         birth = birth,
         userName = userName,
         userRole = userRole,
+        profile_Image = profile_Image,
     )
 }

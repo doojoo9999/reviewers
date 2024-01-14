@@ -3,6 +3,7 @@ package com.teamsparta.reviewers.domain.post.controller
 import com.teamsparta.reviewers.domain.post.dto.request.*
 import com.teamsparta.reviewers.domain.post.dto.response.CommentReplyResponse
 import com.teamsparta.reviewers.domain.post.dto.response.CommentResponse
+import com.teamsparta.reviewers.domain.post.dto.response.DeleteResponse
 import com.teamsparta.reviewers.domain.post.service.CommentService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/reviewers/{postId}/comment")
+@RequestMapping("/api/posts/{postId}/comments")
 class CommentController(
     private val commentService: CommentService
 
@@ -27,7 +28,8 @@ class CommentController(
     // 코멘트 작성
     @PostMapping()
     fun createComment(
-        @PathVariable postId: Long, userId: Long,
+        @PathVariable postId: Long,
+        @RequestHeader("userId") userId: Long,
         @RequestBody createCommentRequest: CreateCommentRequest
     ): ResponseEntity<CommentResponse> {
         return ResponseEntity
@@ -38,10 +40,9 @@ class CommentController(
 
  @PutMapping("/{commentId}")
     fun updateComment(
-     @PathVariable
-     postId: Long,
-     commentId: Long,
-     userId: Long,
+     @PathVariable postId: Long,
+     @PathVariable commentId: Long,
+     @RequestHeader("userId") userId: Long,
      @RequestBody updateCommentRequest: UpdateCommentRequest
    ): ResponseEntity<CommentResponse> {
         return ResponseEntity
@@ -49,72 +50,72 @@ class CommentController(
             .body(commentService.updateComment(postId, commentId, userId, updateCommentRequest))
    }
 
+    @DeleteMapping("/{commentId}") // 댓글 삭제
+    fun deleteComment(
+        @PathVariable postId: Long,
+        @PathVariable commentId: Long,
+        @RequestHeader("userId") userId: Long,
+        @RequestBody deleteCommentRequest: DeleteCommentRequest
+    ): ResponseEntity<DeleteResponse> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .body(commentService.deleteComment(postId, commentId, userId, deleteCommentRequest))
+    }
+
 
     @GetMapping() //한 포스트에 달린 전체 댓글 조회
      fun getCommentByPostId(
-         @PathVariable
-         postId: Long
+         @PathVariable postId: Long
      ):ResponseEntity<List<CommentResponse>> {
          return ResponseEntity
              .status(HttpStatus.OK)
              .body(commentService.getCommentByPostId(postId))
      }
-    @GetMapping("/{commentId}/all") // 댓글 따로 조회
-    fun getCommentByCommentId(
-        @PathVariable
-        postId: Long,
-        commentId: Long
-    ): ResponseEntity<List<CommentResponse>>{
+    @GetMapping("/{commentId}") // 댓글 따로 조회
+    fun getRepliesByCommentId(
+        @PathVariable postId: Long,
+        @PathVariable commentId: Long
+    ): ResponseEntity<List<CommentReplyResponse>>{
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.getCommentByCommentId(postId,commentId))
-    }
-    @DeleteMapping("/{commentId}") // 댓글 삭제
-    fun deleteComment(
-        @PathVariable postId: Long,
-        userId: Long,
-        commentId: Long,
-        @RequestBody deleteCommentRequest: DeleteCommentRequest
-    ): ResponseEntity<CommentResponse> {
-        return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .build()
+            .body(commentService.getRepliesByCommentId(postId,commentId))
     }
 
-    @PostMapping("/{commentId}/reply") // 대댓글 작성
+    @PostMapping("/{commentId}/replies") // 대댓글 작성
     fun createReply(
         @PathVariable postId: Long,
-        userId: Long,
-        @PathVariable(name = "commentId") parentCommentId: Long,
+        @PathVariable commentId: Long,
+        @RequestHeader("userId") userId: Long,
         @RequestBody createReplyRequest: CreateReplyRequest
     ): ResponseEntity<CommentReplyResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(commentService.createReply(postId, userId, parentCommentId, createReplyRequest))
+            .body(commentService.createReply(postId, userId, commentId, createReplyRequest))
     }
 
-    @PutMapping("/{commentId}/reply") // 대댓글 수정
-    fun updateReply(
-        @PathVariable postId: Long,
-        userId: Long,
-        @PathVariable(name = "commentId") parentCommentId: Long,
-        @RequestBody updateReplyRequest: UpdateReplyRequest
-    ): ResponseEntity<CommentReplyResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(commentService.updateReply(postId, userId, parentCommentId, updateReplyRequest))
-    }
+//    @PutMapping("/{commentId}/replies/{replyId}") // 대댓글 수정
+//    fun updateReply(
+//        @PathVariable postId: Long,
+//        @PathVariable commentId: Long,
+//        @PathVariable replyId: Long,
+//        @RequestBody updateReplyRequest: UpdateReplyRequest
+//    ): ResponseEntity<CommentReplyResponse> {
+//        return ResponseEntity
+//            .status(HttpStatus.OK)
+//            .body(commentService.updateReply(postId, commentId, replyId, updateReplyRequest))
+//    }
 
-    @DeleteMapping("/{commentId}/reply") // 대댓글 삭제
-    fun deleteReply(
-        @PathVariable postId: Long,
-        userId: Long,
-        @PathVariable(name = "commentId") parentCommentId: Long,
-        @RequestBody deleteReplyRequest: DeleteReplyRequest
-    ): ResponseEntity<CommentReplyResponse> {
-        return ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .build()
-    }
+//    @DeleteMapping("/{commentId}/replies/{replyId}") // 대댓글 삭제
+//    fun deleteReply(
+//        @PathVariable postId: Long,
+//        @PathVariable commentId: Long,
+//        @PathVariable replyId: Long,
+//        @RequestHeader("userId") userId: Long,
+//        @RequestBody deleteReplyRequest: DeleteReplyRequest
+//    ): ResponseEntity<DeleteResponse> {
+//        return ResponseEntity
+//            .status(HttpStatus.NO_CONTENT)
+//            .body(commentService.deleteReply(postId, commentId, replyId, deleteReplyRequest))
+//    }
 
 }
