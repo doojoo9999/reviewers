@@ -24,12 +24,17 @@ class PostServiceImpl(
 ) : PostService {
 
     override fun createPost(request: CreatePostRequest): PostResponse {
+
+        val email = userRepository.findByEmail(request.email)
+            ?: throw ModelNotFoundException("not found email", 1)
+
         return postRepository.save(
             PostEntity(
                 title = request.title,
                 thumbnailUrl = request.thumbnailUrl,
                 content = request.content,
-                likes = 0
+                likes = 0,
+                email = email
             )
         ).toResponse()
     }
@@ -61,10 +66,10 @@ class PostServiceImpl(
     }
 
     override fun addLike(email: String, postId: Long): AddLikeResponse {
-        val user = userRepository.findByEmail(email) ?: throw ModelNotFoundException ("email", 1)
+        val email = userRepository.findByEmail(email) ?: throw ModelNotFoundException ("email", 1)
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
 
-        if (likeRepository.existsByUserAndPost(user, post)) {
+        if (likeRepository.existsByEmailAndPost(email, post)) {
             throw IllegalArgumentException ("따봉은 계정 당 1회만 가능합니다.")
         }
         post.likes += 1

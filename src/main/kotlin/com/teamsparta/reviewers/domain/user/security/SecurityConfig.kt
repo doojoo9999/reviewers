@@ -32,6 +32,7 @@ class SecurityConfig(
                 authorize("/v3/api-docs/**", permitAll)
                 authorize("/api/user/signup", permitAll)
                 authorize("/api/user/signin", permitAll)
+                authorize("*", permitAll)
                 authorize("/admin/**", hasAuthority(UserRole.ADMIN.name))
             }
             formLogin {

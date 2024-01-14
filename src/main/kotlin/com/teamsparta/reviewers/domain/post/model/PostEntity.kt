@@ -2,6 +2,7 @@ package com.teamsparta.reviewers.domain.post.model
 
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
+import com.teamsparta.reviewers.domain.user.model.UserEntity
 import jakarta.persistence.*
 
 @Entity
@@ -20,7 +21,12 @@ class PostEntity (
     var likes : Int,
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
-    val comments: MutableList<CommentEntity> = mutableListOf()
+    val comments: MutableList<CommentEntity> = mutableListOf(),
+
+    @ManyToOne
+    @JoinColumn(name = "email")
+    val email : UserEntity,
+
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +44,7 @@ fun PostEntity.toResponse(): PostResponse {
 
 fun PostEntity.toAddLikeResponse() : AddLikeResponse {
     return AddLikeResponse(
+        email = email.email,
         postid = postid,
         likes = likes,
     )

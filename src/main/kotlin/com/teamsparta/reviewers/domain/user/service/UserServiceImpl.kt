@@ -48,14 +48,14 @@ class UserServiceImpl(
             ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
 
         return SignInResponse(user.email, user.userName, user.userRole)
-
+    }
 
 
 //        val member = memberRepository.findByAccount(request.account)
 //            ?.takeIf { encoder.matches(request.password, it.password) } ?: throw IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.")
 //        val token = tokenProvider.createToken("${member.id}:${member.type}")
 //        return SignInResponse(member.name, member.type, token)
-    }
+
 
     // 로그아웃은 클라이언트에서 JavaScript를 통해 진행됨 (document.cookie = "token=; ) 등등등,.,,,.,.,.,.,. 이라고 함
     override fun signOut(email: String): SignOutResponse {

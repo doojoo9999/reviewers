@@ -6,6 +6,6 @@ import com.teamsparta.reviewers.domain.user.model.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface LikeRepository : JpaRepository <LikeEntity, Long> {
-    fun existsByUserAndPost(user: UserEntity, post: PostEntity) : Boolean
+    fun existsByEmailAndPost(email: UserEntity, post: PostEntity) : Boolean
 
 }
