@@ -40,9 +40,10 @@ class CommentController(
 
  @PutMapping("/{commentId}")
     fun updateComment(
-     @PathVariable postId: Long,
-     @PathVariable commentId: Long,
-     @RequestHeader("userId") userId: Long,
+     @PathVariable
+     postId: Long,
+     commentId: Long,
+     userId: Long,
      @RequestBody updateCommentRequest: UpdateCommentRequest
    ): ResponseEntity<CommentResponse> {
         return ResponseEntity
@@ -65,20 +66,22 @@ class CommentController(
 
     @GetMapping() //한 포스트에 달린 전체 댓글 조회
      fun getCommentByPostId(
-         @PathVariable postId: Long
+         @PathVariable
+         postId: Long
      ):ResponseEntity<List<CommentResponse>> {
          return ResponseEntity
              .status(HttpStatus.OK)
              .body(commentService.getCommentByPostId(postId))
      }
-    @GetMapping("/{commentId}") // 댓글 따로 조회
-    fun getRepliesByCommentId(
-        @PathVariable postId: Long,
-        @PathVariable commentId: Long
-    ): ResponseEntity<List<CommentReplyResponse>>{
+    @GetMapping("/{commentId}/all") // 댓글 따로 조회
+    fun getCommentByCommentId(
+        @PathVariable
+        postId: Long,
+        commentId: Long
+    ): ResponseEntity<List<CommentResponse>>{
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.getRepliesByCommentId(postId,commentId))
+            .body (commentService.getRepliesByCommentId(postId,commentId))
     }
 
     @PostMapping("/{commentId}/replies") // 대댓글 작성
