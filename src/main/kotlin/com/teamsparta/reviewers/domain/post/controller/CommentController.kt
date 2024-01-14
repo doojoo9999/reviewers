@@ -36,7 +36,6 @@ class CommentController(
     }
 
 
-
  @PutMapping("/{commentId}")
     fun updateComment(
      @PathVariable
@@ -82,6 +81,17 @@ class CommentController(
             .status(HttpStatus.OK)
             .body(commentService.getCommentByCommentId(postId,commentId))
     }
+    @DeleteMapping("/{commentId}") // 댓글 삭제
+    fun deleteComment(
+        @PathVariable postId: Long,
+        userId: Long,
+        commentId: Long,
+        @RequestBody deleteCommentRequest: DeleteCommentRequest
+    ): ResponseEntity<CommentResponse> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
+    }
 
     @PostMapping("/{commentId}/reply") // 대댓글 작성
     fun createReply(
@@ -118,4 +128,5 @@ class CommentController(
             .status(HttpStatus.NO_CONTENT)
             .build()
     }
+
 }
