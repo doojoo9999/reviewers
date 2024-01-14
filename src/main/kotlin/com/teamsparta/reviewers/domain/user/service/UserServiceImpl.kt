@@ -53,7 +53,6 @@ class UserServiceImpl(
 //        if (jwtTokenProvider.validateToken(token) == null) {
 //            throw IllegalArgumentException("토큰이 유효하지 않습니다.")
 //        }
-
         jwtTokenProvider.validateToken(token)
 
         return SignInResponse(user.email, user.userName, user.userRole, token)
