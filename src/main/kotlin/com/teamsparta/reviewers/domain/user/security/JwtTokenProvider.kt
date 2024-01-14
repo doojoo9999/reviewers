@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import java.sql.Timestamp
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.*
 
@@ -24,13 +25,19 @@ class JwtTokenProvider {
     }
 
     // JWT 유효성 검사
+    // JWT 유효성 검사
     fun validateToken(token: String?): String? {
         return try {
             val claims = Jwts.parserBuilder().build().parseClaimsJwt(token).body
             val expiration = claims.expiration
 
-            if (expiration != null && expiration.before(Date())) {
-                throw IllegalArgumentException("토큰이 만료되었습니다.")
+            if (expiration != null) {
+                val currentDateTime = LocalDateTime.now()
+                val expirationDateTime = expiration.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+
+                if (expirationDateTime.isBefore(currentDateTime)) {
+                    throw IllegalArgumentException("토큰이 만료되었습니다.")
+                }
             }
 
             claims.subject

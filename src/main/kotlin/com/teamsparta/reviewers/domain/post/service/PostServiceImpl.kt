@@ -3,6 +3,7 @@ package com.teamsparta.reviewers.domain.post.service
 import com.teamsparta.reviewers.domain.exception.EmailNotFoundException
 import com.teamsparta.reviewers.domain.exception.ModelNotFoundException
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
+import com.teamsparta.reviewers.domain.post.dto.request.GetPostByUseridRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
@@ -23,7 +24,7 @@ class PostServiceImpl(
 
     override fun createPost(request: CreatePostRequest): PostResponse {
 
-        val email = userRepository.findByEmail(request.email)
+        val userid = userRepository.findByUserid(request.userid)
             ?: throw ModelNotFoundException("not found email", 1)
 
         return postRepository.save(
@@ -32,7 +33,7 @@ class PostServiceImpl(
                 thumbnailUrl = request.thumbnailUrl,
                 content = request.content,
                 likes = 0,
-                email = email
+                user = userid
             )
         ).toResponse()
     }
@@ -41,9 +42,10 @@ class PostServiceImpl(
         return postRepository.findAll().map { it.toResponse() }
     }
 
-    override fun getPostById(postId: Long): PostResponse {
-        val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException ("Post", postId)
-        return post.toResponse()
+    override fun getPostsByUserId(userid: Long): List<PostResponse> {
+        val user = userRepository.findByIdOrNull(userid) ?: throw ModelNotFoundException ("User", userid)
+        val posts = postRepository.findByUser(user)
+        return posts.map { it.toResponse() }
     }
 
     override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
@@ -63,16 +65,16 @@ class PostServiceImpl(
         postRepository.delete(post)
     }
 
-    override fun addLike(email: String, postId: Long): AddLikeResponse {
+    override fun addLike(user: Long, postId: Long): AddLikeResponse {
 
         val authentication = SecurityContextHolder.getContext().authentication
-        val userEmail = authentication.name
+        val userid = authentication.name
 
-        if (userEmail == "anonymousUser") {
+        if (user == null || user.toString() != userid) {
             throw IllegalArgumentException ("로그인이 필요합니다.")
         }
 
-        val user = userRepository.findByEmail(userEmail) ?: throw EmailNotFoundException("User", userEmail)
+        val user = userRepository.findByUserid(user) ?: throw EmailNotFoundException("User", user)
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
 
         if (user.likedPosts.contains(post)) {

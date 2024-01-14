@@ -24,8 +24,8 @@ class PostEntity (
     val comments: MutableList<CommentEntity> = mutableListOf(),
 
     @ManyToOne
-    @JoinColumn(name = "email")
-    val email : UserEntity,
+    @JoinColumn(name = "user_id")
+    val user : UserEntity,
 
 
 
@@ -46,7 +46,7 @@ fun PostEntity.toResponse(): PostResponse {
 
 fun PostEntity.toAddLikeResponse() : AddLikeResponse {
     return AddLikeResponse(
-        email = email.email,
+        email = user.email,
         postid = postid,
         likes = likes,
     )

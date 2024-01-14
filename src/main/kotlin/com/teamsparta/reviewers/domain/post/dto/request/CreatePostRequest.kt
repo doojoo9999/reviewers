@@ -4,5 +4,5 @@ data class CreatePostRequest(
     val thumbnailUrl: String,
     val title: String,
     val content: String,
-    val email: String
+    val userid: Long,
 )

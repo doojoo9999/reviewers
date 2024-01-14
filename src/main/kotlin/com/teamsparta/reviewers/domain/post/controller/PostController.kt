@@ -1,11 +1,11 @@
 package com.teamsparta.reviewers.domain.post.controller
 
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
+import com.teamsparta.reviewers.domain.post.dto.request.GetPostByUseridRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.service.PostService
-import com.teamsparta.reviewers.domain.user.model.UserEntity
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -24,11 +24,13 @@ class PostController(
             .body(postService.getPostList())
     }
 
-    @GetMapping("/{postId}")
-    fun getPostById(@AuthenticationPrincipal @PathVariable postId: Long) : ResponseEntity<PostResponse> {
+    @GetMapping("/{userid}")
+    fun getPostsByUserid(
+        @PathVariable userid: Long,
+    ) : ResponseEntity<List<PostResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(postService.getPostById(postId))
+            .body(postService.getPostsByUserId(userid))
     }
 
     @PostMapping()
@@ -61,12 +63,11 @@ class PostController(
     @PostMapping("/{postId}/like")
     fun addLike(
         @PathVariable postId: Long,
-        @AuthenticationPrincipal email: String,
-
+        user : Long,
     ): ResponseEntity<AddLikeResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(postService.addLike(email, postId))
+            .body(postService.addLike(user, postId))
     }
 
 }

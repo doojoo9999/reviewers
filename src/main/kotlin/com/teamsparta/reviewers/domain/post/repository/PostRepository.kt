@@ -8,4 +8,7 @@ interface PostRepository : JpaRepository <PostEntity, Long>{
 
     fun findByLikes(email: UserEntity): List<PostEntity>
 
+    fun findByUser(user: UserEntity): List<PostEntity>
+
+
 }

@@ -1,6 +1,7 @@
 package com.teamsparta.reviewers.domain.post.service
 
 import com.teamsparta.reviewers.domain.post.dto.request.CreatePostRequest
+import com.teamsparta.reviewers.domain.post.dto.request.GetPostByUseridRequest
 import com.teamsparta.reviewers.domain.post.dto.request.UpdatePostRequest
 import com.teamsparta.reviewers.domain.post.dto.response.PostResponse
 import com.teamsparta.reviewers.domain.post.dto.response.AddLikeResponse
@@ -16,7 +17,7 @@ interface PostService {
 
     fun deletePost(postId:Long)
 
-    fun getPostById(postId:Long) : PostResponse
+    fun getPostsByUserId(userid:Long) : List<PostResponse>
 
-    fun addLike(email:String, postId:Long) : AddLikeResponse
+    fun addLike(user:Long, postId:Long) : AddLikeResponse
 }
