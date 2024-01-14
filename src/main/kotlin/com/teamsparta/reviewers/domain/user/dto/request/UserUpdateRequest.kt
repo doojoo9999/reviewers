@@ -17,7 +17,8 @@ data class UserUpdateRequest(
     @Schema(description = "회원 생년월일", example = "19990101")
     val birth: String,
 
-    @Schema(description = "회원 프로필 이미지")
+    @Schema(description = "회원 프로필 이미지",
+        example = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kaka[…]dn%2FbWz7HG%2FbtsC9BPiomM%2FDFL2H2sCgFKDtsJ9T39UC0%2Fimg.png")
     val profile_Image: String,
 
     @Schema(description = "회원 유형", example = "USER")
