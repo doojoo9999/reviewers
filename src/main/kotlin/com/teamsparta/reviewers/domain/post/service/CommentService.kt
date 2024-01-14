@@ -21,7 +21,7 @@ interface CommentService {
 
     fun createReply(postId: Long, userId: Long, parentcommentId: Long, request : CreateReplyRequest) : CommentReplyResponse
 
-    fun updateReply(postId: Long, userId: Long, parentcommentId: Long, request : UpdateReplyRequest) : CommentReplyResponse
-
-    fun deleteReply(postId: Long, userId: Long, parentcommentId: Long, request : DeleteReplyRequest) : DeleteResponse
+//    fun updateReply(postId: Long, commentId: Long, parentcommentId: Long, request : UpdateReplyRequest) : CommentReplyResponse
+//
+//    fun deleteReply(postId: Long, userId: Long, parentcommentId: Long, request : DeleteReplyRequest) : DeleteResponse
 }
