@@ -41,18 +41,30 @@ class CommentController(
 
 
 
-     @PutMapping("/{commentId}")
-        fun updateComment(
-         @PathVariable
-         postId: Long,
-         commentId: Long,
-         userId: Long,
-         @RequestBody updateCommentRequest: UpdateCommentRequest
-       ): ResponseEntity<CommentResponse> {
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(commentService.updateComment(postId, commentId, userId, updateCommentRequest))
-        }
+ @PutMapping("/{commentId}")
+    fun updateComment(
+     @PathVariable
+     postId: Long,
+     commentId: Long,
+     userId: Long,
+     @RequestBody updateCommentRequest: UpdateCommentRequest
+   ): ResponseEntity<CommentResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(commentService.updateComment(postId, commentId, userId, updateCommentRequest))
+   }
+
+    @DeleteMapping("/{commentId}") // 댓글 삭제
+    fun deleteComment(
+        @PathVariable postId: Long,
+        userId: Long,
+        commentId: Long,
+        @RequestBody deleteCommentRequest: DeleteCommentRequest
+    ): ResponseEntity<CommentResponse> {
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
+    }
 
 
     @GetMapping() //한 포스트에 달린 전체 댓글 조회

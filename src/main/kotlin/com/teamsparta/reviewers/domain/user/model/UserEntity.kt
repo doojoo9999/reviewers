@@ -20,9 +20,12 @@ class UserEntity(
     @Column(name = "username", nullable = false)
     var userName: String,
 
+    @Column(name = "profile_image", nullable = false)
+    var profile_Image: String,
+
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
-    val userRole: UserRole = UserRole.USER,
+    var userRole: UserRole = UserRole.USER,
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val userCommentList: MutableList<CommentEntity> = mutableListOf()
@@ -38,5 +41,6 @@ fun UserEntity.toSignUpResponse(): SignUpResponse {
         birth = birth,
         userName = userName,
         userRole = userRole,
+        profile_Image = profile_Image,
     )
 }

@@ -2,7 +2,6 @@ package com.teamsparta.reviewers.domain.user.security
 
 import com.teamsparta.reviewers.domain.user.common.UserRole
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
-import org.springframework.boot.autoconfigure.security.servlet.RequestMatcherProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -14,9 +13,7 @@ import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(
-//    private val jwtTokenProvider: JwtTokenProvider
-) {
+class SecurityConfig() {
 
     fun configure(web: WebSecurity) {
         web.ignoring().requestMatchers( PathRequest.toStaticResources().atCommonLocations())
