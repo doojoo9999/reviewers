@@ -2,11 +2,8 @@ package com.teamsparta.reviewers.domain.user.model
 
 import com.teamsparta.reviewers.domain.post.model.CommentEntity
 import com.teamsparta.reviewers.domain.user.common.UserRole
-import com.teamsparta.reviewers.domain.user.dto.request.UserUpdateRequest
 import com.teamsparta.reviewers.domain.user.dto.response.SignUpResponse
-import com.teamsparta.reviewers.domain.user.dto.response.UserUpdateResponse
 import jakarta.persistence.*
-import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
 @Table(name = "users")
