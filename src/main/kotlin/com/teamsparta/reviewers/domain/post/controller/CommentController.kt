@@ -24,8 +24,6 @@ class CommentController(
     private val commentService: CommentService
 
 ) {
-
-    // 코멘트 작성
     @PostMapping()
     fun createComment(
         @PathVariable postId: Long,
@@ -38,19 +36,19 @@ class CommentController(
     }
 
 
- @PutMapping("/{commentId}")
+    @PutMapping("/{commentId}")
     fun updateComment(
-     @PathVariable postId: Long,
-     @PathVariable commentId: Long,
-     @RequestHeader("userId") userId: Long,
-     @RequestBody updateCommentRequest: UpdateCommentRequest
-   ): ResponseEntity<CommentResponse> {
+        @PathVariable postId: Long,
+        @PathVariable commentId: Long,
+        @RequestHeader("userId") userId: Long,
+        @RequestBody updateCommentRequest: UpdateCommentRequest
+    ): ResponseEntity<CommentResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(commentService.updateComment(postId, commentId, userId, updateCommentRequest))
-   }
+    }
 
-    @DeleteMapping("/{commentId}") // 댓글 삭제
+    @DeleteMapping("/{commentId}")
     fun deleteComment(
         @PathVariable postId: Long,
         @PathVariable commentId: Long,
@@ -63,25 +61,26 @@ class CommentController(
     }
 
 
-    @GetMapping() //한 포스트에 달린 전체 댓글 조회
-     fun getCommentByPostId(
-         @PathVariable postId: Long
-     ):ResponseEntity<List<CommentResponse>> {
-         return ResponseEntity
-             .status(HttpStatus.OK)
-             .body(commentService.getCommentByPostId(postId))
-     }
-    @GetMapping("/{commentId}") // 댓글 따로 조회
+    @GetMapping()
+    fun getCommentByPostId(
+        @PathVariable postId: Long
+    ): ResponseEntity<List<CommentResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(commentService.getCommentByPostId(postId))
+    }
+
+    @GetMapping("/{commentId}")
     fun getRepliesByCommentId(
         @PathVariable postId: Long,
         @PathVariable commentId: Long
-    ): ResponseEntity<List<CommentReplyResponse>>{
+    ): ResponseEntity<List<CommentReplyResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.getRepliesByCommentId(postId,commentId))
+            .body(commentService.getRepliesByCommentId(postId, commentId))
     }
 
-    @PostMapping("/{commentId}/replies") // 대댓글 작성
+    @PostMapping("/{commentId}/replies")
     fun createReply(
         @PathVariable postId: Long,
         @PathVariable commentId: Long,
@@ -93,29 +92,5 @@ class CommentController(
             .body(commentService.createReply(postId, userId, commentId, createReplyRequest))
     }
 
-//    @PutMapping("/{commentId}/replies/{replyId}") // 대댓글 수정
-//    fun updateReply(
-//        @PathVariable postId: Long,
-//        @PathVariable commentId: Long,
-//        @PathVariable replyId: Long,
-//        @RequestBody updateReplyRequest: UpdateReplyRequest
-//    ): ResponseEntity<CommentReplyResponse> {
-//        return ResponseEntity
-//            .status(HttpStatus.OK)
-//            .body(commentService.updateReply(postId, commentId, replyId, updateReplyRequest))
-//    }
-
-//    @DeleteMapping("/{commentId}/replies/{replyId}") // 대댓글 삭제
-//    fun deleteReply(
-//        @PathVariable postId: Long,
-//        @PathVariable commentId: Long,
-//        @PathVariable replyId: Long,
-//        @RequestHeader("userId") userId: Long,
-//        @RequestBody deleteReplyRequest: DeleteReplyRequest
-//    ): ResponseEntity<DeleteResponse> {
-//        return ResponseEntity
-//            .status(HttpStatus.NO_CONTENT)
-//            .body(commentService.deleteReply(postId, commentId, replyId, deleteReplyRequest))
-//    }
 
 }
