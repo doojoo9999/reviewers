@@ -18,5 +18,5 @@ data class SignUpResponse(
     val userRole: UserRole,
 
     @Schema(description = "회원 프로필 이미지")
-    val profile_Image: String,
+    val profileImage: String,
 )

@@ -22,7 +22,7 @@ class UserEntity(
     var userName: String,
 
     @Column(name = "profile_image", nullable = false)
-    var profile_Image: String,
+    var profileImage: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
@@ -46,6 +46,6 @@ fun UserEntity.toSignUpResponse(): SignUpResponse {
         birth = birth,
         userName = userName,
         userRole = userRole,
-        profile_Image = profile_Image,
+        profileImage = profileImage,
     )
 }

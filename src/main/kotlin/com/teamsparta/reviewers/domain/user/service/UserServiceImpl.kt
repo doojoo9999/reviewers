@@ -35,7 +35,7 @@ class UserServiceImpl(
                 birth = request.birth,
                 userName = request.userName,
                 userRole = request.userRole,
-                profile_Image = request.profile_Image
+                profileImage = request.profileImage
             )
         ).toSignUpResponse()
     }
@@ -69,8 +69,9 @@ class UserServiceImpl(
         if (encoder.matches(request.password, user.password)) {
             user.userName = request.userName
             user.birth = request.birth
-            user.profile_Image = request.profile_Image
+            user.profileImage = request.profileImage
             user.userRole = request.userRole
+
 
             if (request.newPassword.isNotBlank()) {
                 val newPasswordEncoded = encoder.encode(request.newPassword)
@@ -79,7 +80,7 @@ class UserServiceImpl(
 
             userRepository.save(user)
 
-            return UserUpdateResponse(user.userName, user.birth, user.profile_Image, user.userRole)
+            return UserUpdateResponse(user.userName, user.birth, user.profileImage, user.userRole)
         } else {
             throw IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.")
         }

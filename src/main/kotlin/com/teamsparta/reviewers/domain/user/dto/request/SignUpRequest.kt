@@ -35,7 +35,7 @@ data class SignUpRequest(
     val userName: String,
 
     @Schema(description = "회원 프로필 이미지")
-    val profile_Image: String,
+    val profileImage: String,
 
     @Schema(description = "회원 유형", example = "USER")
     val userRole: UserRole,
