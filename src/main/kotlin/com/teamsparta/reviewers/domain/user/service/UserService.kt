@@ -11,17 +11,9 @@ import com.teamsparta.reviewers.domain.user.dto.response.WithdrawResponse
 
 
 interface UserService {
-
     fun signUp(email: String, request: SignUpRequest): SignUpResponse
-
     fun signIn(request: SignInRequest): SignInResponse
-
     fun signOut(email:String): SignOutResponse
-
     fun withdraw(email:String) : WithdrawResponse
-
-
-
-
     fun userUpdate(email: String, request: UserUpdateRequest): UserUpdateResponse
 }

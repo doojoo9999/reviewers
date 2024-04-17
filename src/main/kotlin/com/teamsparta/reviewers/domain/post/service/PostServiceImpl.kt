@@ -57,7 +57,6 @@ class PostServiceImpl(
         post.thumbnailUrl = thumbnailUrl
 
         return postRepository.save(post).toResponse()
-
     }
 
     override fun deletePost(postId: Long) {

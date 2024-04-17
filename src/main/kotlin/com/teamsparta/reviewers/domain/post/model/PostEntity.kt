@@ -26,9 +26,6 @@ class PostEntity (
     @ManyToOne
     @JoinColumn(name = "user_id")
     val user : UserEntity,
-
-
-
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +40,6 @@ fun PostEntity.toResponse(): PostResponse {
         likes = likes
     )
 }
-
 fun PostEntity.toAddLikeResponse() : AddLikeResponse {
     return AddLikeResponse(
         email = user.email,

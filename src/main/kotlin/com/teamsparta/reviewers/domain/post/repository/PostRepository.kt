@@ -5,10 +5,6 @@ import com.teamsparta.reviewers.domain.user.model.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface PostRepository : JpaRepository <PostEntity, Long>{
-
     fun findByLikes(email: UserEntity): List<PostEntity>
-
     fun findByUser(user: UserEntity): List<PostEntity>
-
-
 }

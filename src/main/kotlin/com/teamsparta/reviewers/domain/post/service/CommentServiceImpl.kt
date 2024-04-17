@@ -26,7 +26,6 @@ class CommentServiceImpl(
     private val commentRepository: CommentRepository,
     private val userRepository: UserRepository
 ) : CommentService {
-
     @Transactional
     override fun createComment(
         postId: Long,
@@ -139,8 +138,6 @@ class CommentServiceImpl(
                 )
             ).toReplyResponse()
         }
-
-
     }
 //    @Transactional
 //    override fun updateReply(// 대댓글 수정

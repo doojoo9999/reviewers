@@ -18,7 +18,6 @@ class SecurityConfig() {
     fun configure(web: WebSecurity) {
         web.ignoring().requestMatchers( PathRequest.toStaticResources().atCommonLocations())
     }
-
     @Bean
     @Throws(Exception::class)
     fun filterChain(http: HttpSecurity): SecurityFilterChain {

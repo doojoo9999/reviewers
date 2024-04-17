@@ -89,8 +89,6 @@ class UserServiceImpl(
         return SignOutResponse(message = "complete logout:$email", success = true)
     }
 
-
-
     override fun withdraw(email: String): WithdrawResponse {
         val user = userRepository.findByEmail(email) ?: return WithdrawResponse(message = "not founded email.", success = false)
         userRepository.delete(user)

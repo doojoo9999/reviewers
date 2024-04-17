@@ -10,14 +10,9 @@ import com.teamsparta.reviewers.domain.user.model.UserEntity
 interface PostService {
 
     fun getPostList() : List<PostResponse>
-
     fun createPost(request: CreatePostRequest) : PostResponse
-
     fun updatePost(postId:Long, request: UpdatePostRequest) : PostResponse
-
     fun deletePost(postId:Long)
-
     fun getPostsByUserId(userid:Long) : List<PostResponse>
-
     fun addLike(user:Long, postId:Long) : AddLikeResponse
 }
